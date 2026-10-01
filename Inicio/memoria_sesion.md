@@ -103,3 +103,10 @@
 - [x] `Inicio/agent.md` — Formato v2 (un solo HTML, alternador, guía navegable, examen v2 con guardado/feedback/por-tema), validación obligatoria FASE 4, comandos `/generar_guia_visual` y `/generar_examen` actualizados.
 - [x] `Inicio/flujo_trabajo.md` — FASE 2 clasifica Tipo A/B/C; FASE 3 usa base compartida + estructura v2; FASE 4 validación obligatoria con `verify_v2.py`.
 
+# Publicación en GitHub (01-Oct-2026)
+
+**Repo:** `https://github.com/DedSecRisk/Agente_de_estudio_y_examenes.git` (rama `main`, commit `f90554b`, 29 archivos, ~258 KB subidos).
+- [x] `git init` + `.gitignore` (excluye `Matería/`, `_extract_*.txt`, `*.pdf/jpg/jpeg/png`, `__pycache__/`) + `README.md` con estructura y uso.
+- [x] Commit inicial + `push -u origin main` exitoso.
+- [x] **NO versionado (por copyright/privacidad):** libro Probabilidad (30 MB), PDF capacitación Salesforce, PDFs/imágenes de exámenes, guía con datos personales del CV, extracts de texto.
+
