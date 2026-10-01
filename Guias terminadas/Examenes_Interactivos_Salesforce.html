@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta charset='UTF-8'>
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+<title>Examen Interactivo Salesforce FSC &amp; Slack — 60 reactivos (Nivel Difícil)</title>
+
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0F172A;color:#e2e8f0;line-height:1.6;margin:0;padding:0 14px 90px}
+.container{max-width:1000px;margin:0 auto;padding:14px}
+h1{color:#bae6fd;text-align:center;border-bottom:3px solid #38bdf8;padding-bottom:12px}
+h2{color:#38bdf8;border-left:5px solid #38bdf8;padding-left:10px;margin-top:46px}
+h3{color:#fef3c7}
+.nav{position:sticky;top:0;background:rgba(15,23,42,.96);padding:10px;border-radius:8px;margin:18px 0;text-align:center;z-index:40;border:1px solid #334155}
+.nav a{color:#38bdf8;text-decoration:none;margin:2px 6px;font-weight:600;font-size:.9em}
+.nav a:hover{color:#bae6fd;text-decoration:underline}
+.question{background:rgba(255,255,255,.04);border:1px solid #334155;border-left:4px solid #38bdf8;padding:14px 16px;margin-bottom:18px;border-radius:6px}
+.question.ok{border-left-color:#22c55e;border-color:#22c55e}
+.question.bad{border-left-color:#ef4444;border-color:#ef4444}
+.qnum{display:inline-block;background:#38bdf8;color:#0f1729;font-weight:700;border-radius:4px;padding:1px 9px;margin-right:8px}
+.qtag{display:inline-block;background:rgba(245,158,11,.15);color:#fef3c7;border:1px solid #f59e0b;border-radius:4px;padding:1px 8px;font-size:.75em}
+.qtext{margin:10px 0 12px}
+.options{display:flex;flex-direction:column;gap:8px;margin:0 0 12px}
+.option{display:flex;align-items:flex-start;gap:10px;background:rgba(56,189,248,.07);border:2px solid #38bdf8;color:#bae6fd;padding:9px 12px;border-radius:6px;cursor:pointer;transition:.15s}
+.option:hover{background:rgba(56,189,248,.18);border-color:#7dd3fc}
+.option input{margin-top:3px;flex:none}
+.option.opt-correct{background:rgba(34,197,94,.16);border-color:#22c55e;color:#bbf7d0}
+.option.opt-wrong{background:rgba(248,113,113,.16);border-color:#ef4444;color:#fecaca}
+.btn-sol{background:#f59e0b;color:#0f1729;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:700}
+.btn-sol:hover{background:#fbbf24}
+.sol-box{display:none;margin-top:12px;padding:12px;background:rgba(30,41,59,.6);border:2px dashed #475569;border-radius:8px}
+.concept-box{background:rgba(56,189,248,.1);border:2px solid #38bdf8;color:#bae6fd;padding:9px 12px;border-radius:6px;margin:8px 0;font-size:.95em}
+.tip-box{background:rgba(248,113,113,.1);border:2px solid #ef4444;color:#fecaca;padding:9px 12px;border-radius:6px;margin:8px 0;font-size:.95em}
+.example-box{background:rgba(34,197,94,.1);border:2px solid #22c55e;color:#bbf7d0;padding:9px 12px;border-radius:6px;margin:8px 0;font-size:.95em}
+.formula-box{background:rgba(245,158,11,.1);border:2px solid #f59e0b;color:#fef3c7;padding:9px 12px;border-radius:6px;margin:8px 0;font-size:.95em}
+.tree{background:rgba(30,41,59,.9);border:2px dashed #475569;color:#cbd5e1;padding:12px;border-radius:8px;font-family:Consolas,monospace;white-space:pre;overflow-x:auto;margin:10px 0;line-height:1.5}
+table.symb{border-collapse:collapse;margin:10px 0;width:100%}
+table.symb th,table.symb td{border:1px solid #475569;padding:6px 10px;text-align:left}
+table.symb th{background:rgba(100,116,139,.2);color:#e0e0ff}
+.resultbar{position:fixed;bottom:0;left:0;right:0;background:rgba(15,23,42,.98);border-top:2px solid #38bdf8;padding:10px 18px;display:flex;justify-content:center;gap:16px;align-items:center;z-index:60;flex-wrap:wrap}
+.bar-wrap{width:200px;height:12px;background:#1e293b;border-radius:6px;overflow:hidden}
+#progbar{height:100%;width:0;background:linear-gradient(90deg,#38bdf8,#22c55e);transition:width .3s}
+#btnRes{display:none;background:#22c55e;color:#0f1729;font-weight:800;border:2px solid #4ade80;padding:10px 24px;border-radius:8px;cursor:pointer;font-size:1.05em;animation:pulse 1s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.45)}70%{box-shadow:0 0 0 12px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+.score-panel{display:none;background:rgba(30,41,59,.85);border:2px solid #38bdf8;border-radius:10px;padding:20px;margin:30px 0;text-align:center}
+.score-panel .big{font-size:2.4em;font-weight:800;color:#bae6fd}
+.score-panel .pct{font-size:1.4em;color:#4ade80;font-weight:700}
+#resLista a{color:#fecaca;font-weight:700;margin:0 3px}
+.footer{text-align:center;margin-top:40px;padding:12px;color:#64748b;font-size:.9em}
+</style>
+</head>
+<body>
+<div class='container'>
+
+<h1>🎓 Examen Interactivo — Salesforce FSC &amp; Slack</h1>
+
+<p style='text-align:center;color:#94a3b8;'>Broker de Seguros y Beneficios Empresariales · 60 reactivos de nivel difícil (opción múltiple) · Escenarios reales y relación de conceptos · Método visual 🔵🔴🟢🟠</p>
+
+<p style='text-align:center;color:#94a3b8;'>Responde los 60 reactivos y al finalizar aparecerá el botón <strong style='color:#4ade80'>✓ Mostrar resultados</strong>; en tus errores verás la opción correcta resaltada y justificada.</p>
+<h2>🌳 Árbol de Decisión: ¿Qué herramienta usar según el caso?</h2>
+<div class="tree">
+Situación en el Broker                          -> Solución
+├─ "¿Unificar canales y asignar al agente libre?"  -> OMNICHANNEL (Work Items + Presence + Capacity)
+├─ "¿Registrar toda solicitud/consulta con SLA?"    -> CASE (Service Cloud) + COLAS
+├─ "¿Gestionar el expediente del siniestro?"        -> CLAIM (Insurance Cloud)
+├─ "¿Llamadas integradas al CRM con contexto?"      -> SERVICE CLOUD VOICE (Screen Pop, ACW, Wrap-Up)
+├─ "¿Lista exacta de registros para trabajar?"      -> REPORTE (exportable a Excel/CSV/PDF)
+├─ "¿Ver el negocio de un vistazo?"                 -> DASHBOARD (gráficas, contadores, semáforos)
+├─ "¿Automatizar tareas al cambiar un registro?"    -> FLOW BUILDER (Record-Triggered)
+├─ "¿Persona física / empresa / familia en FSC?"    -> ACCOUNT Person | Business | HOUSEHOLD
+├─ "¿Modificar una póliza vigente?"                 -> ENDORSEMENT (endoso)
+├─ "¿Coordinar y decidir en equipo?"                -> SLACK (canales, hilos, Huddle)
+└─ "¿Colaborar con la aseguradora (externa)?"       -> SLACK CONNECT
+</div>
+<h2>📋 Tabla de Notación — Objetos y Términos Salesforce</h2>
+<table class="symb">
+<tr><th>Término</th><th>Significado en el negocio</th></tr>
+<tr><td>Account (Business/Person)</td><td>Empresa contratante / persona física asegurada</td></tr>
+<tr><td>Household</td><td>Agrupa miembros de familia o colectivo (rollup AUM, net worth)</td></tr>
+<tr><td>Insurance Policy</td><td>Póliza (objeto central de Insurance Cloud, id POL-xxxx)</td></tr>
+<tr><td>Coverage / Participant</td><td>Cobertura específica / asegurado incluido en la póliza</td></tr>
+<tr><td>Carrier / Producer</td><td>Aseguradora que suscribe / agente responsable del Broker</td></tr>
+<tr><td>Endorsement / Renewal</td><td>Endoso (modificación vigente) / proceso de renovación</td></tr>
+<tr><td>Claim</td><td>Siniestro (Reportado → En Proceso → En Revisión → Resuelto → Cerrado)</td></tr>
+<tr><td>Case</td><td>Solicitud/consulta con SLA (Nuevo → … → Pendiente Cliente → … → Cerrado)</td></tr>
+<tr><td>Opportunity / Stage</td><td>Cotización/venta activa / etapa del pipeline</td></tr>
+<tr><td>Work Item</td><td>Unidad de trabajo de Omnichannel (chat, WhatsApp, email, voz)</td></tr>
+<tr><td>Presence / Capacity</td><td>Estado del agente / máx. Work Items simultáneos</td></tr>
+<tr><td>Screen Pop / ACW / Wrap-Up</td><td>Ficha al contestar / trabajo post-llamada / código de cierre</td></tr>
+<tr><td>SLA / Queue</td><td>Tiempo comprometido / cola de casos por área</td></tr>
+<tr><td>Flow / Workflow Builder</td><td>Automatización en Salesforce / automatización en Slack</td></tr>
+</table>
+<div class="nav">
+<a href="#ses1">S1</a><a href="#ses2">S2</a><a href="#ses3">S3</a><a href="#ses4">S4</a><a href="#ses5">S5</a><a href="#ses6">S6</a><a href="#ses7">S7</a><a href="#ses8">S8</a><a href="#ses9">S9</a><a href="#ses10">S10</a>
+</div>
+<h2 id="ses1">📘 Sesión 1 — Introducción al Ecosistema Salesforce</h2>
+
+<div class="question" id="cont-q01">
+<p><span class="qnum">1</span><span class="qtag">Sesión 1</span></p>
+<p class="qtext">En el diagnóstico inicial de MC Brokers se detectaron: solicitudes funcionales sin análisis previo suficiente, uso parcial de las funcionalidades estándar y alta dependencia del equipo técnico. ¿Cuál es el impacto más grave que busca contener el programa de capacitación?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q01" value="A"> <span>A) La baja del SLA de la mesa de servicio del call center</span></label>
+<label class="option"><input type="radio" name="q01" value="B"> <span>B) La pérdida de grabaciones de llamadas por falta de almacenamiento</span></label>
+<label class="option"><input type="radio" name="q01" value="C"> <span>C) El aumento del costo de las licencias de las nubes contratadas</span></label>
+<label class="option"><input type="radio" name="q01" value="D"> <span>D) La sobreconfiguración innecesaria que incrementa la deuda técnica y el retrabajo funcional</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q01')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q01">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 <strong>Concepto:</strong> El diagnóstico documenta "riesgo de sobreconfiguración innecesaria" derivado de customizar por falta de conocimiento.</div><div class="example-box">🟢 <strong>Impacto actual:</strong> retrabajo funcional, ineficiencias operativas e incremento en deuda técnica.</div><div class="tip-box">⚠️ <strong>Trampa:</strong> Las otras opciones mezclan síntomas operativos (SLA, grabaciones, licencias) que no derivan del dolor detectado.</div>
+</div></div>
+<div class="question" id="cont-q02">
+<p><span class="qnum">2</span><span class="qtag">Sesión 1</span></p>
+<p class="qtext">De acuerdo con el mapa del ecosistema, el área de Siniestros del Broker combina tres nubes en su operación diaria. ¿Cuáles son?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q02" value="A"> <span>A) Service Cloud + Omnichannel + Voice</span></label>
+<label class="option"><input type="radio" name="q02" value="B"> <span>B) FSC + Reportes + Campañas</span></label>
+<label class="option"><input type="radio" name="q02" value="C"> <span>C) Insurance Cloud + Service Cloud + Voice</span></label>
+<label class="option"><input type="radio" name="q02" value="D"> <span>D) FSC + Insurance Cloud + Slack</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q02')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q02">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="concept-box">🔵 <strong>Quién usa qué:</strong> Siniestros = Insurance + Service + Voice.</div><div class="example-box">🟢 El asegurado reporta el siniestro (Service), se gestiona el Claim (Insurance) y se coordina por llamadas integradas (Voice).</div><div class="tip-box">⚠️ <strong>Trampa:</strong> Atención = Service+Omni+Voice; Comercial = FSC+Insurance+Slack; Cobranza = FSC+Reportes.</div>
+</div></div>
+<div class="question" id="cont-q03">
+<p><span class="qnum">3</span><span class="qtag">Sesión 1</span></p>
+<p class="qtext">¿Qué elemento distingue a Financial Services Cloud (FSC) de la plataforma Salesforce estándar para el caso de un Broker de seguros?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q03" value="A"> <span>A) Un módulo de facturación electrónica exclusivo de México</span></label>
+<label class="option"><input type="radio" name="q03" value="B"> <span>B) Un modelo de datos especializado, consolas preconfiguradas por rol y funcionalidades regulatorias</span></label>
+<label class="option"><input type="radio" name="q03" value="C"> <span>C) Un sistema contable que reemplaza al ERP de la aseguradora</span></label>
+<label class="option"><input type="radio" name="q03" value="D"> <span>D) Una red privada que aísla la información del sector financiero</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q03')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q03">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 FSC extiende Salesforce con modelo de datos especializado, consolas (Banker, Advisor, Insurance Producer) y funcionalidades regulatorias.</div><div class="tip-box">⚠️ <strong>Trampa:</strong> FSC no sustituye un ERP ni factura: vive SOBRE la plataforma Salesforce y se integra con ella.</div>
+</div></div>
+<div class="question" id="cont-q04">
+<p><span class="qnum">4</span><span class="qtag">Sesión 1</span></p>
+<p class="qtext">Un cliente corporativo comunica que su empresa tendrá una expansión (abrirá operaciones en otra ciudad). ¿Qué pilar de FSC registra este hito y dispara oportunidades comerciales proactivas?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q04" value="A"> <span>A) Life Events & Business Milestones</span></label>
+<label class="option"><input type="radio" name="q04" value="B"> <span>B) Referral Management</span></label>
+<label class="option"><input type="radio" name="q04" value="C"> <span>C) Households & Relaciones</span></label>
+<label class="option"><input type="radio" name="q04" value="D"> <span>D) Perfil Financiero del Cliente</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q04')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q04">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 <strong>Life Events & Business Milestones:</strong> registra matrimonio, nacimiento, jubilación, expansión, IPO — dispara oportunidades proactivas.</div><div class="tip-box">⚠️ <strong>Trampa:</strong> Referral Management rastrea referidos entre áreas (origen, estado, conversión); no gestiona hitos de vida.</div>
+</div></div>
+<div class="question" id="cont-q05">
+<p><span class="qnum">5</span><span class="qtag">Sesión 1</span></p>
+<p class="qtext">En el mapa del ecosistema, ¿qué combinación de nubes corresponde al área de Atención del Broker?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q05" value="A"> <span>A) Insurance Cloud + Service Cloud + Voice</span></label>
+<label class="option"><input type="radio" name="q05" value="B"> <span>B) FSC + Insurance Cloud + Slack</span></label>
+<label class="option"><input type="radio" name="q05" value="C"> <span>C) FSC + Reportes</span></label>
+<label class="option"><input type="radio" name="q05" value="D"> <span>D) Service Cloud + Omnichannel + Voice</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q05')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q05">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 <strong>Atención:</strong> Service (Casos) + Omni (canales: email, chat, WhatsApp, voz) + Voice (llamadas).</div><div class="tip-box">⚠️ <strong>Trampa:</strong> Siniestros comparte Service y Voice pero suma Insurance; el distintivo de Atención es Omnichannel (multi-canal).</div>
+</div></div>
+<h2 id="ses2">📘 Sesión 2 — FSC: Fundamentos y Modelo de Datos</h2>
+
+<div class="question" id="cont-q06">
+<p><span class="qnum">6</span><span class="qtag">Sesión 2</span></p>
+<p class="qtext">ACME Corp. contrata un seguro colectivo y tú debes registrar a Juan Pérez, empleado de ACME, como asegurado individual en el modelo de datos FSC. ¿Qué objeto usas?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q06" value="A"> <span>A) Financial Account</span></label>
+<label class="option"><input type="radio" name="q06" value="B"> <span>B) Household</span></label>
+<label class="option"><input type="radio" name="q06" value="C"> <span>C) Account (Person)</span></label>
+<label class="option"><input type="radio" name="q06" value="D"> <span>D) Account (Business)</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q06')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q06">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="concept-box">🔵 <strong>Account (Business)</strong> = empresa contratante; <strong>Account (Person)</strong> = persona física asegurada.</div><div class="tip-box">⚠️ <strong>Trampa:</strong> Financial Account representa la cuenta de beneficios o la póliza maestra del colectivo, no a la persona.</div>
+</div></div>
+<div class="question" id="cont-q07">
+<p><span class="qnum">7</span><span class="qtag">Sesión 2</span></p>
+<p class="qtext">¿Qué objeto del modelo FSC agrupa a los miembros de una familia o colectivo (cónyuge, dependientes, beneficiarios) y permite cálculos como el rollup de AUM y net worth?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q07" value="A"> <span>A) Activity / Task</span></label>
+<label class="option"><input type="radio" name="q07" value="B"> <span>B) Household</span></label>
+<label class="option"><input type="radio" name="q07" value="C"> <span>C) Relationship</span></label>
+<label class="option"><input type="radio" name="q07" value="D"> <span>D) Contact</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q07')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q07">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>Household:</strong> agrupa Person Accounts en hogares, modela cónyuges/dependientes/beneficiarios y calcula AUM y net worth.</div><div class="tip-box">⚠️ <strong>Trampa:</strong> Relationship conecta registros entre sí (vínculos), pero no agrupa familias ni calcula métricas financieras.</div>
+</div></div>
+<div class="question" id="cont-q08">
+<p><span class="qnum">8</span><span class="qtag">Sesión 2</span></p>
+<p class="qtext">En la operación diaria del Broker, ¿para qué se utiliza el objeto Relationship de FSC?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q08" value="A"> <span>A) Para conectar personas, empresas y cuentas entre sí dentro del modelo FSC (ej. empleado–empresa)</span></label>
+<label class="option"><input type="radio" name="q08" value="B"> <span>B) Para guardar una copia de la póliza en PDF</span></label>
+<label class="option"><input type="radio" name="q08" value="C"> <span>C) Para registrar el RFC y CURP del asegurado</span></label>
+<label class="option"><input type="radio" name="q08" value="D"> <span>D) Para activar un Action Plan de renovación</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q08')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q08">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 <strong>Relationship</strong> conecta personas, empresas y cuentas (vínculo empleado, cónyuge, dependiente).</div><div class="tip-box">⚠️ <strong>Trampa:</strong> Registrar vínculos solo en notas de Chatter es un error común; el vínculo estructural se modela con Relationship.</div>
+</div></div>
+<div class="question" id="cont-q09">
+<p><span class="qnum">9</span><span class="qtag">Sesión 2</span></p>
+<p class="qtext">Un ejecutivo debe dar la vista 360° de ACME Corp: ver empresa, asegurados, pólizas, siniestros, oportunidades y actividades. ¿Qué práctica garantiza que la vista sea confiable y sin registros duplicados?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q09" value="A"> <span>A) Crear un Account Business nuevo por cada empleado asegurado</span></label>
+<label class="option"><input type="radio" name="q09" value="B"> <span>B) Mantener el historial en una hoja de cálculo sincronizada manualmente</span></label>
+<label class="option"><input type="radio" name="q09" value="C"> <span>C) Registrar los vínculos únicamente como notas internas</span></label>
+<label class="option"><input type="radio" name="q09" value="D"> <span>D) Buscar duplicados antes de crear y vincular cada asegurado al Account Business mediante Relationships</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q09')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q09">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 El <strong>360°</strong> consolida Account, pólizas, Claims, Opportunities y Activities del cliente.</div><div class="example-box">🟢 Buenas prácticas: buscar antes de crear, vincular asegurados con Relationship y actualizar RFC/CURP.</div><div class="tip-box">⚠️ Crear cuentas duplicadas o planillas externas rompe la vista única del cliente.</div>
+</div></div>
+<div class="question" id="cont-q10">
+<p><span class="qnum">10</span><span class="qtag">Sesión 2</span></p>
+<p class="qtext">¿Cuál de las siguientes acciones es un ERROR común identificado en la gestión de clientes y asegurados con FSC?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q10" value="A"> <span>A) Buscar duplicados antes de crear un registro</span></label>
+<label class="option"><input type="radio" name="q10" value="B"> <span>B) Documentar en Chatter las decisiones relevantes del cliente</span></label>
+<label class="option"><input type="radio" name="q10" value="C"> <span>C) Usar Account (Business) para registrar personas físicas aseguradas</span></label>
+<label class="option"><input type="radio" name="q10" value="D"> <span>D) Vincular a cada asegurado con una Relationship a su empresa empleadora</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q10')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q10">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="concept-box">🔵 Errores comunes: duplicados por no buscar, Account(Business) para personas, campos obligatorios en blanco, relaciones en notas, no actualizar bajas.</div><div class="tip-box">⚠️ Las otras opciones son buenas prácticas; la pregunta pide el ERROR.</div>
+</div></div>
+<div class="question" id="cont-q11">
+<p><span class="qnum">11</span><span class="qtag">Sesión 2</span></p>
+<p class="qtext">¿Qué representan la Banker Console, Advisor Console e Insurance Producer Console dentro de FSC?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q11" value="A"> <span>A) Colas de atención del área de Siniestros</span></label>
+<label class="option"><input type="radio" name="q11" value="B"> <span>B) Consolas (layouts) preconfiguradas por rol para acelerar el trabajo de cada perfil</span></label>
+<label class="option"><input type="radio" name="q11" value="C"> <span>C) Objetos de datos donde se almacenan las pólizas</span></label>
+<label class="option"><input type="radio" name="q11" value="D"> <span>D) Reportes financieros obligatorios del regulador</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q11')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q11">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>Consolas Especializadas:</strong> Banker, Advisor e Insurance Producer — layouts preconfigurados por rol.</div><div class="tip-box">⚠️ Son vistas de trabajo por perfil, no tablas de datos ni reportes regulatorios.</div>
+</div></div>
+<div class="question" id="cont-q12">
+<p><span class="qnum">12</span><span class="qtag">Sesión 2</span></p>
+<p class="qtext">El área de riesgos recibe una recomendación de un ejecutivo comercial para ofrecer un seguro de Vida a un cliente existente. La trazabilidad del referido se gestiona con...</p>
+<div class="options">
+<label class="option"><input type="radio" name="q12" value="A"> <span>A) Referral Management</span></label>
+<label class="option"><input type="radio" name="q12" value="B"> <span>B) Life Events & Business Milestones</span></label>
+<label class="option"><input type="radio" name="q12" value="C"> <span>C) Perfil Financiero del Cliente</span></label>
+<label class="option"><input type="radio" name="q12" value="D"> <span>D) Modelo de Datos Especializado</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q12')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q12">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 <strong>Referral Management:</strong> flujo de referidos con tracking de origen, estado, conversión y asignación automática por producto.</div><div class="tip-box">⚠️ Distingue "hito de vida" (matrimonio, IPO) de "referido entre áreas" (recomendación de un ejecutivo).</div>
+</div></div>
+<div class="question" id="cont-q13">
+<p><span class="qnum">13</span><span class="qtag">Sesión 2</span></p>
+<p class="qtext">¿Qué muestra la vista de Perfil Financiero del Cliente en FSC?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q13" value="A"> <span>A) Únicamente la prima de la póliza más reciente del asegurado</span></label>
+<label class="option"><input type="radio" name="q13" value="B"> <span>B) El estado de las colas de Omnichannel</span></label>
+<label class="option"><input type="radio" name="q13" value="C"> <span>C) El catálogo de productos de la aseguradora</span></label>
+<label class="option"><input type="radio" name="q13" value="D"> <span>D) Cuentas, activos, pasivos, inversiones, pólizas y metas consolidadas del cliente en una sola pantalla</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q13')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q13">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 <strong>Perfil Financiero:</strong> vista consolidada 360° con cuentas, activos, pasivos, inversiones, pólizas y metas.</div><div class="tip-box">⚠️ No es un reporte de una sola póliza ni del estado de colas/atención.</div>
+</div></div>
+<h2 id="ses3">📘 Sesión 3 — Insurance Cloud: Pólizas y Beneficios</h2>
+
+<div class="question" id="cont-q14">
+<p><span class="qnum">14</span><span class="qtag">Sesión 3</span></p>
+<p class="qtext">En el modelo de operación del Broker, ¿cuál es la diferencia funcional clave frente a la Aseguradora?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q14" value="A"> <span>A) El Broker liquida los siniestros y cobra la prima directamente al asegurado</span></label>
+<label class="option"><input type="radio" name="q14" value="B"> <span>B) No hay diferencia: el Broker y la aseguradora ejecutan el mismo proceso</span></label>
+<label class="option"><input type="radio" name="q14" value="C"> <span>C) El Broker administra pólizas de múltiples aseguradoras, pero no suscribe ni liquida siniestros</span></label>
+<label class="option"><input type="radio" name="q14" value="D"> <span>D) El Broker suscribe pólizas y la aseguradora solo administra las renovaciones</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q14')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q14">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="concept-box">🔵 <strong>Diferencia vs. Aseguradora:</strong> el Broker administra, no suscribe ni liquida.</div><div class="example-box">🟢 El Broker recibe, registra, documenta y da seguimiento (primer punto de contacto); la aseguradora resuelve el siniestro.</div>
+</div></div>
+<div class="question" id="cont-q15">
+<p><span class="qnum">15</span><span class="qtag">Sesión 3</span></p>
+<p class="qtext">El objeto central de Insurance Cloud que representa la póliza y posee un identificador único (ej. POL-2024-001234) es...</p>
+<div class="options">
+<label class="option"><input type="radio" name="q15" value="A"> <span>A) Producer</span></label>
+<label class="option"><input type="radio" name="q15" value="B"> <span>B) Insurance Policy</span></label>
+<label class="option"><input type="radio" name="q15" value="C"> <span>C) Coverage</span></label>
+<label class="option"><input type="radio" name="q15" value="D"> <span>D) Policy Participant</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q15')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q15">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>Insurance Policy:</strong> póliza de seguro — objeto central del módulo Insurance.</div><div class="tip-box">⚠️ Coverage es la cobertura específica; Policy Participant es el asegurado incluido; Producer es el agente responsable.</div>
+</div></div>
+<div class="question" id="cont-q16">
+<p><span class="qnum">16</span><span class="qtag">Sesión 3</span></p>
+<p class="qtext">Dentro de una póliza colectiva GMM se incluyen Hospitalización, Dental y Óptica. ¿Cómo se modelan estos beneficios en Insurance Cloud?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q16" value="A"> <span>A) Como registros de Coverage vinculados a la Insurance Policy</span></label>
+<label class="option"><input type="radio" name="q16" value="B"> <span>B) Como Opportunities de venta adicional</span></label>
+<label class="option"><input type="radio" name="q16" value="C"> <span>C) Como Cases de la cola de servicios</span></label>
+<label class="option"><input type="radio" name="q16" value="D"> <span>D) Como campos de texto libre del Account Business</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q16')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q16">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 <strong>Coverage:</strong> cobertura o beneficio específico de la póliza (Hospitalización, Auto, etc.).</div><div class="tip-box">⚠️ Una cobertura no es una venta (Opportunity), ni una solicitud (Case) ni texto del cliente.</div>
+</div></div>
+<div class="question" id="cont-q17">
+<p><span class="qnum">17</span><span class="qtag">Sesión 3</span></p>
+<p class="qtext">A mitad de la vigencia, ACME solicita agregar a tres empleados nuevos a la póliza GMM vigente. ¿Qué registro de Insurance Cloud refleja correctamente esa modificación?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q17" value="A"> <span>A) Una nueva Insurance Policy independiente</span></label>
+<label class="option"><input type="radio" name="q17" value="B"> <span>B) Una Opportunity de cotización</span></label>
+<label class="option"><input type="radio" name="q17" value="C"> <span>C) Un Case de la cola de siniestros</span></label>
+<label class="option"><input type="radio" name="q17" value="D"> <span>D) Un Endorsement (endoso) sobre la póliza vigente</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q17')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q17">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 <strong>Endorsement</strong> = endoso: modificación a una póliza vigente (cobertura, asegurado, prima).</div><div class="example-box">🟢 Altas/bajas de asegurados y cambios de cobertura se registran como endosos, no como pólizas nuevas.</div><div class="tip-box">⚠️ Una póliza nueva implicaría un contrato distinto; agregar asegurados es un movimiento de la misma póliza.</div>
+</div></div>
+<div class="question" id="cont-q18">
+<p><span class="qnum">18</span><span class="qtag">Sesión 3</span></p>
+<p class="qtext">¿Cuál es el punto de partida del proceso de renovación en el Broker?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q18" value="A"> <span>A) La llamada al cliente para ofrecer un producto nuevo</span></label>
+<label class="option"><input type="radio" name="q18" value="B"> <span>B) El envío de la póliza renovada al asegurado</span></label>
+<label class="option"><input type="radio" name="q18" value="C"> <span>C) Identificación mediante el reporte de pólizas a vencer en 90/60/30 días</span></label>
+<label class="option"><input type="radio" name="q18" value="D"> <span>D) La creación inmediata de la Opportunity de renovación</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q18')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q18">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="example-box">🟢 Flujo: Identificación (reporte 90/60/30) → Asignación (tarea al ejecutivo) → Contacto → Cotización (Opportunity vinculada) → Negociación → Emisión.</div><div class="tip-box">⚠️ La Opportunity de renovación se crea DESPUÉS de identificar y contactar; el reporte dispara el proceso.</div>
+</div></div>
+<div class="question" id="cont-q19">
+<p><span class="qnum">19</span><span class="qtag">Sesión 3</span></p>
+<p class="qtext">Se requiere que, cuando el estado de una póliza cambie a 'Vencida', Salesforce cree automáticamente una tarea de renovación para el ejecutivo. ¿Qué herramienta de automatización debes configurar?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q19" value="A"> <span>A) Una cola de Omnichannel</span></label>
+<label class="option"><input type="radio" name="q19" value="B"> <span>B) Flow Builder (Record-Triggered Flow)</span></label>
+<label class="option"><input type="radio" name="q19" value="C"> <span>C) Approval Process</span></label>
+<label class="option"><input type="radio" name="q19" value="D"> <span>D) Un dashboard de renovaciones</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q19')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q19">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>Flow Builder:</strong> automatización por eventos disparadores (fechas, cambios de estado, checklist).</div><div class="tip-box">⚠️ Approval Process sirve para aprobaciones en cadena, no para disparar tareas por cambio de estado.</div>
+</div></div>
+<div class="question" id="cont-q20">
+<p><span class="qnum">20</span><span class="qtag">Sesión 3</span></p>
+<p class="qtext">Una póliza vigente inicia su gestión de renovación: se creó la Opportunity y el ejecutivo está negociando condiciones. Mientras tanto, ¿qué estado del ciclo de vida refleja la póliza en Salesforce?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q20" value="A"> <span>A) En Renovación</span></label>
+<label class="option"><input type="radio" name="q20" value="B"> <span>B) Activa</span></label>
+<label class="option"><input type="radio" name="q20" value="C"> <span>C) Vencida</span></label>
+<label class="option"><input type="radio" name="q20" value="D"> <span>D) Cancelada</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q20')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q20">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 <strong>Policy Status:</strong> Activa, En Renovación, Vencida, Cancelada — controla el ciclo de vida.</div><div class="example-box">🟢 Solo hasta que se emite la renovación (nueva vigencia y prima) el estado vuelve a "Activa".</div>
+</div></div>
+<div class="question" id="cont-q21">
+<p><span class="qnum">21</span><span class="qtag">Sesión 3</span></p>
+<p class="qtext">Los campos Fecha de Inicio / Fecha de Fin (Vigencia) de la Insurance Policy son estratégicos porque...</p>
+<div class="options">
+<label class="option"><input type="radio" name="q21" value="A"> <span>A) Definen el porcentaje de probabilidad de cierre de la Opportunity</span></label>
+<label class="option"><input type="radio" name="q21" value="B"> <span>B) Determinan el ramo o tipo de seguro (GMM, Vida, Auto)</span></label>
+<label class="option"><input type="radio" name="q21" value="C"> <span>C) Indican qué ejecutivo es el Producer responsable de la póliza</span></label>
+<label class="option"><input type="radio" name="q21" value="D"> <span>D) Activan las alertas de renovación (90/60/30 días) y delimitan el período de cobertura</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q21')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q21">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 La <strong>vigencia</strong> es clave para alertas de renovación y control del período de cobertura.</div><div class="tip-box">⚠️ El ramo lo define "Tipo de Seguro"; el responsable lo define Producer; la vigencia gobierna renovaciones.</div>
+</div></div>
+<h2 id="ses4">📘 Sesión 4 — Procesos Comerciales: Cotización y Pipeline</h2>
+
+<div class="question" id="cont-q22">
+<p><span class="qnum">22</span><span class="qtag">Sesión 4</span></p>
+<p class="qtext">Un ejecutivo envió la cotización formal y queda a la espera de la decisión del cliente. ¿Qué etapa del pipeline refleja este momento?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q22" value="A"> <span>A) Cierre ganado</span></label>
+<label class="option"><input type="radio" name="q22" value="B"> <span>B) Calificando</span></label>
+<label class="option"><input type="radio" name="q22" value="C"> <span>C) Propuesta enviada</span></label>
+<label class="option"><input type="radio" name="q22" value="D"> <span>D) Negociación</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q22')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q22">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="example-box">🟢 Pipeline: Prospecto → Account → Opportunity abierta → Propuesta enviada → Negociación → Cierre ganado → Renovación (a los 90 días).</div><div class="tip-box">⚠️ Negociación es cuando hay ajustes de cobertura/prima en curso; el envío del documento es Propuesta enviada.</div>
+</div></div>
+<div class="question" id="cont-q23">
+<p><span class="qnum">23</span><span class="qtag">Sesión 4</span></p>
+<p class="qtext">¿Qué campo es obligatorio en toda Opportunity y corresponde a la fecha estimada de cierre?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q23" value="A"> <span>A) Stage</span></label>
+<label class="option"><input type="radio" name="q23" value="B"> <span>B) Close Date</span></label>
+<label class="option"><input type="radio" name="q23" value="C"> <span>C) Amount</span></label>
+<label class="option"><input type="radio" name="q23" value="D"> <span>D) Probability</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q23')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q23">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>Close Date:</strong> fecha estimada de cierre — obligatoria en toda Opportunity.</div><div class="tip-box">⚠️ Amount = prima estimada; Probability = % de cierre; Stage = estado del proceso. No confundir.</div>
+</div></div>
+<div class="question" id="cont-q24">
+<p><span class="qnum">24</span><span class="qtag">Sesión 4</span></p>
+<p class="qtext">¿Cómo se calcula el Win Rate (tasa de éxito) de un ejecutivo comercial?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q24" value="A"> <span>A) Oportunidades ganadas ÷ total de oportunidades</span></label>
+<label class="option"><input type="radio" name="q24" value="B"> <span>B) Primas cobradas ÷ primas emitidas</span></label>
+<label class="option"><input type="radio" name="q24" value="C"> <span>C) Casos resueltos ÷ casos recibidos</span></label>
+<label class="option"><input type="radio" name="q24" value="D"> <span>D) Siniestros cerrados ÷ siniestros reportados</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q24')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q24">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 <strong>Win Rate</strong> = oportunidades ganadas / total — métrica clave del ejecutivo.</div><div class="tip-box">⚠️ Las otras fórmulas pertenecen a Cobranza, Servicio y Siniestros respectivamente.</div>
+</div></div>
+<div class="question" id="cont-q25">
+<p><span class="qnum">25</span><span class="qtag">Sesión 4</span></p>
+<p class="qtext">El Pipeline total del Broker se define como...</p>
+<div class="options">
+<label class="option"><input type="radio" name="q25" value="A"> <span>A) La suma de las primas de todas las pólizas activas</span></label>
+<label class="option"><input type="radio" name="q25" value="B"> <span>B) El total de casos abiertos en las colas de atención</span></label>
+<label class="option"><input type="radio" name="q25" value="C"> <span>C) El número de leads generados en la última campaña</span></label>
+<label class="option"><input type="radio" name="q25" value="D"> <span>D) El total de oportunidades abiertas ponderadas por su probabilidad</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q25')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q25">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 <strong>Pipeline:</strong> total de oportunidades abiertas ponderadas por probabilidad.</div><div class="tip-box">⚠️ Mezclar primas de pólizas o casos de servicio rompe el concepto comercial del pipeline.</div>
+</div></div>
+<div class="question" id="cont-q26">
+<p><span class="qnum">26</span><span class="qtag">Sesión 4</span></p>
+<p class="qtext">En un Action Plan de onboarding, la tarea 'Entregar documentos' solo debe aparecer después de completar 'Verificar identidad'. ¿Qué característica de Action Plans garantiza ese orden?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q26" value="A"> <span>A) Fechas y plazos relativos desde el inicio del plan</span></label>
+<label class="option"><input type="radio" name="q26" value="B"> <span>B) Plantillas reutilizables por proceso</span></label>
+<label class="option"><input type="radio" name="q26" value="C"> <span>C) Tareas con dependencias (la tarea siguiente solo aparece al completar la anterior)</span></label>
+<label class="option"><input type="radio" name="q26" value="D"> <span>D) Asignación automática al responsable</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q26')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q26">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="concept-box">🔵 Tareas con <strong>dependencias</strong> encadenan el proceso y evitan saltarse pasos.</div><div class="tip-box">⚠️ La asignación automática define QUIÉN hace; las dependencias definen CUÁNDO aparece cada tarea.</div>
+</div></div>
+<div class="question" id="cont-q27">
+<p><span class="qnum">27</span><span class="qtag">Sesión 4</span></p>
+<p class="qtext">Según las buenas prácticas de seguimiento comercial, ¿qué debe hacer el ejecutivo tras una reunión importante con el cliente?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q27" value="A"> <span>A) Crear una póliza provisional para no perder el registro</span></label>
+<label class="option"><input type="radio" name="q27" value="B"> <span>B) Actualizar la etapa de la Opportunity y registrar la actividad en el timeline</span></label>
+<label class="option"><input type="radio" name="q27" value="C"> <span>C) Esperar a que el cliente confirme por email para registrar algo</span></label>
+<label class="option"><input type="radio" name="q27" value="D"> <span>D) Marcar la Opportunity como cerrada perdida si no firmó en la reunión</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q27')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q27">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="example-box">🟢 Buenas prácticas: registrar TODA interacción, actualizar etapa tras cada reunión, usar Path y evitar oportunidades sin actividad +15 días.</div><div class="tip-box">⚠️ No mezclar venta nueva con renovaciones y registrar el motivo al cerrar perdida.</div>
+</div></div>
+<h2 id="ses5">📘 Sesión 5 — Gestión de Siniestros (Claims)</h2>
+
+<div class="question" id="cont-q28">
+<p><span class="qnum">28</span><span class="qtag">Sesión 5</span></p>
+<p class="qtext">Durante un siniestro de GMM, ¿cuál de las siguientes corresponde EXACTAMENTE al rol del Broker?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q28" value="A"> <span>A) Recibir, registrar, documentar y dar seguimiento ante la aseguradora</span></label>
+<label class="option"><input type="radio" name="q28" value="B"> <span>B) Liquidar el siniestro y ordenar el pago al hospital</span></label>
+<label class="option"><input type="radio" name="q28" value="C"> <span>C) Determinar si la póliza cubre o no el evento</span></label>
+<label class="option"><input type="radio" name="q28" value="D"> <span>D) Emitir un endoso en el momento del siniestro</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q28')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q28">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 El Broker <strong>NO liquida</strong>: la aseguradora resuelve. El Broker es el primer punto de contacto y da acompañamiento.</div><div class="tip-box">⚠️ La decisión de cobertura y el pago son de la aseguradora; el Broker administra y da seguimiento.</div>
+</div></div>
+<div class="question" id="cont-q29">
+<p><span class="qnum">29</span><span class="qtag">Sesión 5</span></p>
+<p class="qtext">Un asegurado llama para reportar un siniestro de auto. Según el flujo end-to-end, ¿qué ocurre en el primer momento?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q29" value="A"> <span>A) Se abre directamente el Claim en Insurance Cloud</span></label>
+<label class="option"><input type="radio" name="q29" value="B"> <span>B) Se adjunta la documentación al expediente</span></label>
+<label class="option"><input type="radio" name="q29" value="C"> <span>C) Se notifica el cierre a la aseguradora por Slack</span></label>
+<label class="option"><input type="radio" name="q29" value="D"> <span>D) Se crea automáticamente el Case (FNOL) en Service Cloud</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q29')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q29">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="example-box">🟢 Flujo: 1) FNOL → Case (Service) · 2) apertura del Claim (Insurance) · 3) documentación (Files) · 4) gestión con aseguradora · 5) comunicación · 6) cierre.</div><div class="tip-box">⚠️ El Claim se crea DESPUÉS del Case; la documentación llega en el paso 3.</div>
+</div></div>
+<div class="question" id="cont-q30">
+<p><span class="qnum">30</span><span class="qtag">Sesión 5</span></p>
+<p class="qtext">¿Cómo se complementan el Case y el Claim en un siniestro?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q30" value="A"> <span>A) El Case es solo para quejas y el Claim para cobranza</span></label>
+<label class="option"><input type="radio" name="q30" value="B"> <span>B) El Claim reemplaza al Case cuando la aseguradora acepta el siniestro</span></label>
+<label class="option"><input type="radio" name="q30" value="C"> <span>C) El Case gestiona la atención al asegurado (con SLA) y el Claim registra el avance del expediente con la aseguradora</span></label>
+<label class="option"><input type="radio" name="q30" value="D"> <span>D) Son registros idénticos: se duplica la información para auditoría</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q30')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q30">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="concept-box">🔵 <strong>Case</strong> = atención (SLA de respuesta); <strong>Claim</strong> = gestión del siniestro con la aseguradora. Son complementarios.</div><div class="tip-box">⚠️ Los SLAs de atención aplican al Case; el Claim registra el avance del expediente.</div>
+</div></div>
+<div class="question" id="cont-q31">
+<p><span class="qnum">31</span><span class="qtag">Sesión 5</span></p>
+<p class="qtext">Al registrar un siniestro de la póliza colectiva GMM de ACME, ¿qué campo indica qué asegurado(s) resultaron afectados?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q31" value="A"> <span>A) Claim Number</span></label>
+<label class="option"><input type="radio" name="q31" value="B"> <span>B) Claim Participant</span></label>
+<label class="option"><input type="radio" name="q31" value="C"> <span>C) Carrier</span></label>
+<label class="option"><input type="radio" name="q31" value="D"> <span>D) Policy Status</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q31')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q31">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>Claim Participant:</strong> asegurado(s) afectado(s) por el siniestro.</div><div class="tip-box">⚠️ Carrier es la aseguradora que debe resolver; Policy Status es el ciclo de vida de la póliza; Claim Number es el identificador.</div>
+</div></div>
+<div class="question" id="cont-q32">
+<p><span class="qnum">32</span><span class="qtag">Sesión 5</span></p>
+<p class="qtext">Un siniestro fue reportado, ya está 'En Proceso' y la aseguradora está evaluando la documentación. Antes de confirmar la resolución, el estado correcto es...</p>
+<div class="options">
+<label class="option"><input type="radio" name="q32" value="A"> <span>A) En Revisión</span></label>
+<label class="option"><input type="radio" name="q32" value="B"> <span>B) Resuelto</span></label>
+<label class="option"><input type="radio" name="q32" value="C"> <span>C) Reportado</span></label>
+<label class="option"><input type="radio" name="q32" value="D"> <span>D) Cerrado</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q32')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q32">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 Estados del Claim: Reportado → En Proceso → En Revisión → Resuelto → Cerrado.</div><div class="example-box">🟢 "En Revisión" es la etapa de evaluación por la aseguradora antes de Resuelto.</div><div class="tip-box">⚠️ "Cerrado" solo llega tras resolver y documentar; "Reportado" es el inicio.</div>
+</div></div>
+<div class="question" id="cont-q33">
+<p><span class="qnum">33</span><span class="qtag">Sesión 5</span></p>
+<p class="qtext">Los SLAs de atención (tiempo máximo de respuesta al asegurado) en el ecosistema del Broker se aplican a...</p>
+<div class="options">
+<label class="option"><input type="radio" name="q33" value="A"> <span>A) El Claim de Insurance Cloud</span></label>
+<label class="option"><input type="radio" name="q33" value="B"> <span>B) La Opportunity de renovación</span></label>
+<label class="option"><input type="radio" name="q33" value="C"> <span>C) El Action Plan de onboarding</span></label>
+<label class="option"><input type="radio" name="q33" value="D"> <span>D) El Case de Service Cloud</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q33')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q33">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 El <strong>SLA de respuesta al asegurado</strong> aplica al Case; el Claim registra el avance del expediente.</div><div class="tip-box">⚠️ Aunque el Claim ES el siniestro, la promesa de tiempo al cliente se mide en el Case.</div>
+</div></div>
+<div class="question" id="cont-q34">
+<p><span class="qnum">34</span><span class="qtag">Sesión 5</span></p>
+<p class="qtext">En un siniestro complejo, el equipo decide en Slack #siniestros-complejos quién gestiona con la aseguradora. Según la regla de oro, ¿qué debe ocurrir después?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q34" value="A"> <span>A) Enviar el acuerdo por email a todo el equipo</span></label>
+<label class="option"><input type="radio" name="q34" value="B"> <span>B) Cerrar el Case sin documentar porque ya se decidió</span></label>
+<label class="option"><input type="radio" name="q34" value="C"> <span>C) Registrar la decisión en el Claim/Case de Salesforce (fuente de verdad)</span></label>
+<label class="option"><input type="radio" name="q34" value="D"> <span>D) Dejar el acuerdo solo en el hilo de Slack para no duplicar</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q34')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q34">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="formula-box">🟠 Regla de oro: <strong>lo que se decide en Slack, se registra en Salesforce.</strong> Slack = conversación · Salesforce = fuente de verdad.</div><div class="tip-box">⚠️ El escalamiento llega a Slack con link al Claim, pero la trazabilidad vive en Salesforce.</div>
+</div></div>
+<h2 id="ses6">📘 Sesión 6 — Service Cloud: Casos, Colas y SLAs</h2>
+
+<div class="question" id="cont-q35">
+<p><span class="qnum">35</span><span class="qtag">Sesión 6</span></p>
+<p class="qtext">En Service Cloud, un asegurado escribe por WhatsApp solicitando su certificado de cobertura. ¿Qué representación recibe esa solicitud en Salesforce?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q35" value="A"> <span>A) Un Work Item asignado a una agencia externa</span></label>
+<label class="option"><input type="radio" name="q35" value="B"> <span>B) Un Case con número único, responsable e historial</span></label>
+<label class="option"><input type="radio" name="q35" value="C"> <span>C) Una Insurance Policy nueva</span></label>
+<label class="option"><input type="radio" name="q35" value="D"> <span>D) Una Opportunity de venta</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q35')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q35">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>Case:</strong> registro central de solicitud/consulta/siniestro con número único, responsable e historial completo.</div><div class="tip-box">⚠️ El Work Item es el concepto de Omnichannel (distribución por canal); en Service Cloud el registro de la solicitud es el Case.</div>
+</div></div>
+<div class="question" id="cont-q36">
+<p><span class="qnum">36</span><span class="qtag">Sesión 6</span></p>
+<p class="qtext">¿Qué campo del Case determina el SLA y el orden de atención?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q36" value="A"> <span>A) Prioridad (Alta / Media / Baja)</span></label>
+<label class="option"><input type="radio" name="q36" value="B"> <span>B) Origen (Email/Teléfono/Web)</span></label>
+<label class="option"><input type="radio" name="q36" value="C"> <span>C) Tipo de Caso</span></label>
+<label class="option"><input type="radio" name="q36" value="D"> <span>D) Queue</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q36')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q36">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 La <strong>Prioridad</strong> (Alta / Media / Baja) determina el orden de atención y el SLA.</div><div class="example-box">🟢 Ej: siniestro urgente = Alta; consulta de cobertura = Media; certificado = Baja.</div><div class="tip-box">⚠️ El Origen registra el canal; la Queue agrupa por área; el orden lo manda la Prioridad.</div>
+</div></div>
+<div class="question" id="cont-q37">
+<p><span class="qnum">37</span><span class="qtag">Sesión 6</span></p>
+<p class="qtext">Si un Case está cerca de incumplir su SLA sin respuesta, ¿qué hace Salesforce automáticamente?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q37" value="A"> <span>A) Cierra el caso y notifica al asegurado</span></label>
+<label class="option"><input type="radio" name="q37" value="B"> <span>B) Convierte el caso en un Claim</span></label>
+<label class="option"><input type="radio" name="q37" value="C"> <span>C) Borra el caso de la cola</span></label>
+<label class="option"><input type="radio" name="q37" value="D"> <span>D) Escala el caso para que sea atendido antes del vencimiento</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q37')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q37">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 <strong>SLA:</strong> Salesforce mide el tiempo comprometido y <strong>escala automáticamente</strong> si se acerca al límite.</div><div class="tip-box">⚠️ Nunca cierra ni elimina: el objetivo es salvarlo escalando.</div>
+</div></div>
+<div class="question" id="cont-q38">
+<p><span class="qnum">38</span><span class="qtag">Sesión 6</span></p>
+<p class="qtext">Con las colas de Service Cloud, ¿quién decide qué agente toma cada Case?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q38" value="A"> <span>A) El asegurado elige al ejecutivo de su preferencia</span></label>
+<label class="option"><input type="radio" name="q38" value="B"> <span>B) El caso se asigna al primer agente que inicie sesión</span></label>
+<label class="option"><input type="radio" name="q38" value="C"> <span>C) El sistema: asigna a la cola correcta por regla y el agente toma el siguiente según prioridad</span></label>
+<label class="option"><input type="radio" name="q38" value="D"> <span>D) El supervisor asigna manualmente cada caso uno a uno</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q38')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q38">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="formula-box">🟠 Regla de oro de las Colas: <strong>"Nadie asigna manualmente... el sistema lo resuelve solo."</strong></div><div class="concept-box">🔵 Visibilidad compartida de la cola + escalamiento + capacidad configurable.</div><div class="tip-box">⚠️ El supervisor puede reasignar, pero la operación normal es automática.</div>
+</div></div>
+<div class="question" id="cont-q39">
+<p><span class="qnum">39</span><span class="qtag">Sesión 6</span></p>
+<p class="qtext">Un agente recibe muchas consultas idénticas sobre cobertura dental. ¿Qué componente de Service Cloud le permite responder con una respuesta estándar sin redactar desde cero?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q39" value="A"> <span>A) Service Console</span></label>
+<label class="option"><input type="radio" name="q39" value="B"> <span>B) Knowledge Articles</span></label>
+<label class="option"><input type="radio" name="q39" value="C"> <span>C) Macros</span></label>
+<label class="option"><input type="radio" name="q39" value="D"> <span>D) Entitlements</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q39')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q39">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>Knowledge Article:</strong> respuesta estándar a preguntas frecuentes.</div><div class="tip-box">⚠️ Macro ejecuta acciones rápidas (email, cambio de estado, cierre); Entitlement define el SLA; Knowledge resuelve "qué responder".</div>
+</div></div>
+<div class="question" id="cont-q40">
+<p><span class="qnum">40</span><span class="qtag">Sesión 6</span></p>
+<p class="qtext">¿Cuál es la ventaja funcional de la Service Console para el agente?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q40" value="A"> <span>A) Ver el Case, el cliente y el historial en una sola pantalla</span></label>
+<label class="option"><input type="radio" name="q40" value="B"> <span>B) Generar reportes de primas sin permisos</span></label>
+<label class="option"><input type="radio" name="q40" value="C"> <span>C) Editar directamente la vigencia de las pólizas</span></label>
+<label class="option"><input type="radio" name="q40" value="D"> <span>D) Sustituir a los dashboards de gerencia</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q40')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q40">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 <strong>Service Console:</strong> interfaz del agente = vista de caso + cliente + historial en una pantalla.</div><div class="tip-box">⚠️ Es una vista de trabajo, no un editor de pólizas ni un sustituto de reportes.</div>
+</div></div>
+<div class="question" id="cont-q41">
+<p><span class="qnum">41</span><span class="qtag">Sesión 6</span></p>
+<p class="qtext">Un agente atendió la solicitud del asegurado y envió una aclaración, pero necesita que el cliente confirme los datos para continuar. ¿Qué estado refleja correctamente esta situación?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q41" value="A"> <span>A) En Proceso</span></label>
+<label class="option"><input type="radio" name="q41" value="B"> <span>B) Resuelto</span></label>
+<label class="option"><input type="radio" name="q41" value="C"> <span>C) Cerrado</span></label>
+<label class="option"><input type="radio" name="q41" value="D"> <span>D) Pendiente Cliente</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q41')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q41">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 Estados: Nuevo → Asignado → En Proceso → <strong>Pendiente Cliente</strong> → Resuelto → Cerrado.</div><div class="example-box">🟢 "Pendiente Cliente" indica que la pelota está del lado del asegurado.</div>
+</div></div>
+<h2 id="ses7">📘 Sesión 7 — Omnichannel: Canales de Atención</h2>
+
+<div class="question" id="cont-q42">
+<p><span class="qnum">42</span><span class="qtag">Sesión 7</span></p>
+<p class="qtext">¿Qué es Omnichannel en el ecosistema del Broker?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q42" value="A"> <span>A) Un módulo para administrar pólizas de múltiples aseguradoras</span></label>
+<label class="option"><input type="radio" name="q42" value="B"> <span>B) Una red telefónica externa de la aseguradora</span></label>
+<label class="option"><input type="radio" name="q42" value="C"> <span>C) El motor que recibe solicitudes de todos los canales y las asigna automáticamente al agente disponible con menor carga</span></label>
+<label class="option"><input type="radio" name="q42" value="D"> <span>D) Una consola de reportes para medir tiempos de llamada</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q42')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q42">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="concept-box">🔵 <strong>Omnichannel:</strong> recibe email, teléfono, chat, WhatsApp y portal; distribuye al agente correcto según disponibilidad, carga y habilidades.</div><div class="tip-box">⚠️ No es Reportes, no es Insurance ni telefonía externa: es el orquestador de canales.</div>
+</div></div>
+<div class="question" id="cont-q43">
+<p><span class="qnum">43</span><span class="qtag">Sesión 7</span></p>
+<p class="qtext">Cuando un asegurado escribe por WhatsApp y otro llama por teléfono, ¿en qué se convierten esas solicitudes dentro de Omnichannel?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q43" value="A"> <span>A) Registros de Knowledge</span></label>
+<label class="option"><input type="radio" name="q43" value="B"> <span>B) Work Items (unidades de trabajo) asignadas a los agentes</span></label>
+<label class="option"><input type="radio" name="q43" value="C"> <span>C) Casos manuales que cada agente debe crear</span></label>
+<label class="option"><input type="radio" name="q43" value="D"> <span>D) Oportunidades de servicio</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q43')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q43">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>Work Item:</strong> unidad de trabajo; su contexto viaja con él (historial completo del cliente).</div><div class="tip-box">⚠️ El caso se crea a partir del Work Item, pero el concepto del canal es Work Item, no un Case manual.</div>
+</div></div>
+<div class="question" id="cont-q44">
+<p><span class="qnum">44</span><span class="qtag">Sesión 7</span></p>
+<p class="qtext">¿Qué condición determina que Omnichannel envíe un nuevo Work Item a un agente?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q44" value="A"> <span>A) Su estado (Presence) está en 'Disponible' y no supera su capacidad</span></label>
+<label class="option"><input type="radio" name="q44" value="B"> <span>B) Tener la consola abierta aunque esté en pausa</span></label>
+<label class="option"><input type="radio" name="q44" value="C"> <span>C) Haber atendido el último ítem de la cola</span></label>
+<label class="option"><input type="radio" name="q44" value="D"> <span>D) Estar conectado por videollamada</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q44')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q44">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 <strong>Presence:</strong> Disponible, Ocupado, En Pausa o Fuera de Línea. El sistema solo envía trabajo cuando está Disponible.</div><div class="example-box">🟢 <strong>Capacity</strong> limita cuántos Work Items simultáneos puede atender.</div><div class="tip-box">⚠️ Estar "conectado" pero "En Pausa" NO recibe trabajo.</div>
+</div></div>
+<div class="question" id="cont-q45">
+<p><span class="qnum">45</span><span class="qtag">Sesión 7</span></p>
+<p class="qtext">El Capacity (capacidad) de un agente en Omnichannel representa...</p>
+<div class="options">
+<label class="option"><input type="radio" name="q45" value="A"> <span>A) El número de canales a los que está suscrito</span></label>
+<label class="option"><input type="radio" name="q45" value="B"> <span>B) El tiempo máximo que puede estar en pausa</span></label>
+<label class="option"><input type="radio" name="q45" value="C"> <span>C) La cantidad de hilos de Slack que puede abrir</span></label>
+<label class="option"><input type="radio" name="q45" value="D"> <span>D) El número máximo de Work Items simultáneos que puede atender</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q45')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q45">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 <strong>Capacity:</strong> máximo de Work Items simultáneos de un agente.</div><div class="tip-box">⚠️ No confundir con canales suscritos ni con tiempos de pausa.</div>
+</div></div>
+<div class="question" id="cont-q46">
+<p><span class="qnum">46</span><span class="qtag">Sesión 7</span></p>
+<p class="qtext">¿Qué acción forma parte del control en tiempo real del supervisor en Omnichannel?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q46" value="A"> <span>A) Eliminar el SLA de los casos de la cola</span></label>
+<label class="option"><input type="radio" name="q46" value="B"> <span>B) Editar la estructura organizacional del Workspace de Slack</span></label>
+<label class="option"><input type="radio" name="q46" value="C"> <span>C) Redistribuir ítems entre agentes con un clic y ver colas acumuladas antes de que impacten</span></label>
+<label class="option"><input type="radio" name="q46" value="D"> <span>D) Cambiar la moneda de las primas de las pólizas</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q46')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q46">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="concept-box">🔵 El supervisor ve agentes activos, carga, colas y SLAs en riesgo, y <strong>reasigna con un clic</strong>.</div><div class="tip-box">⚠️ Las demás opciones no pertenecen a la vista de supervisión de Omnichannel.</div>
+</div></div>
+<h2 id="ses8">📘 Sesión 8 — Service Cloud Voice</h2>
+
+<div class="question" id="cont-q47">
+<p><span class="qnum">47</span><span class="qtag">Sesión 8</span></p>
+<p class="qtext">Cuando un asegurado llama y Salesforce identifica su número, ¿qué sucede antes de que el agente conteste?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q47" value="A"> <span>A) Se crea una tarea para el supervisor</span></label>
+<label class="option"><input type="radio" name="q47" value="B"> <span>B) Screen Pop: aparece el registro del cliente con pólizas, Cases y siniestros</span></label>
+<label class="option"><input type="radio" name="q47" value="C"> <span>C) Se abre una Opportunity de venta automática</span></label>
+<label class="option"><input type="radio" name="q47" value="D"> <span>D) El sistema envía un email de confirmación</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q47')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q47">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>Screen Pop:</strong> identifica al asegurado y muestra su registro completo antes de contestar.</div><div class="tip-box">⚠️ Con Voice el agente ya sabe quién es y su contexto; no hay búsqueda manual.</div>
+</div></div>
+<div class="question" id="cont-q48">
+<p><span class="qnum">48</span><span class="qtag">Sesión 8</span></p>
+<p class="qtext">¿Qué permite Click-to-Dial en Service Cloud Voice?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q48" value="A"> <span>A) Llamar al cliente desde un clic en cualquier registro; la llamada sale del softphone y queda registrada en el Timeline</span></label>
+<label class="option"><input type="radio" name="q48" value="B"> <span>B) Grabar la pantalla del cliente</span></label>
+<label class="option"><input type="radio" name="q48" value="C"> <span>C) Transferir llamadas directo a Slack</span></label>
+<label class="option"><input type="radio" name="q48" value="D"> <span>D) Enviar la póliza por SMS</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q48')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q48">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 <strong>Click-to-Dial:</strong> llamada con un clic desde Account/Case/Póliza; queda automáticamente en el Timeline.</div><div class="tip-box">⚠️ La llamada sale del softphone integrado, sin hardware adicional.</div>
+</div></div>
+<div class="question" id="cont-q49">
+<p><span class="qnum">49</span><span class="qtag">Sesión 8</span></p>
+<p class="qtext">Al colgar una llamada, el agente documenta el Case y clasifica el resultado con códigos como 'Consulta Atendida' o 'Siniestro Reportado'. ¿Qué nombre reciben esos códigos?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q49" value="A"> <span>A) Screen Pops</span></label>
+<label class="option"><input type="radio" name="q49" value="B"> <span>B) Entitlements</span></label>
+<label class="option"><input type="radio" name="q49" value="C"> <span>C) Presence States</span></label>
+<label class="option"><input type="radio" name="q49" value="D"> <span>D) Wrap-Up Codes</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q49')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q49">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 <strong>Wrap-Up Code:</strong> clasifica el resultado de la llamada y alimenta reportes (mix real de consultas).</div><div class="example-box">🟢 El <strong>ACW</strong> (After Call Work) es el tiempo para documentar antes de recibir la siguiente llamada.</div><div class="tip-box">⚠️ Screen Pop es la ficha al entrar; Presence es el estado del agente.</div>
+</div></div>
+<div class="question" id="cont-q50">
+<p><span class="qnum">50</span><span class="qtag">Sesión 8</span></p>
+<p class="qtext">Durante la llamada, Einstein Conversation Intelligence transcribe el audio en tiempo real y detecta que el asegurado menciona 'cancelar'. ¿Qué más puede hacer la IA en ese momento?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q50" value="A"> <span>A) Cerrar el Case automáticamente con prioridad Baja</span></label>
+<label class="option"><input type="radio" name="q50" value="B"> <span>B) Enviar la cotización de renovación directo al asegurado</span></label>
+<label class="option"><input type="radio" name="q50" value="C"> <span>C) Sugerir un artículo de Knowledge relacionado y alertar sobre el tema clave</span></label>
+<label class="option"><input type="radio" name="q50" value="D"> <span>D) Reasignar la llamada a otro agente sin avisar</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q50')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q50">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="concept-box">🔵 <strong>Einstein:</strong> transcripción, análisis de sentimiento, alertas de temas clave (siniestro, cancelar, queja, urgente), sugerencias de Knowledge y resumen automático.</div><div class="tip-box">⚠️ Einstein asiste al agente; no cierra Cases ni gestiona cobranza por sí mismo.</div>
+</div></div>
+<div class="question" id="cont-q51">
+<p><span class="qnum">51</span><span class="qtag">Sesión 8</span></p>
+<p class="qtext">¿Cuál es el beneficio directo del IVR para el asegurado que llama?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q51" value="A"> <span>A) Solo aplica a llamadas de cobranza</span></label>
+<label class="option"><input type="radio" name="q51" value="B"> <span>B) Enruta la llamada al área correcta antes del agente → menor tiempo de espera y contexto correcto</span></label>
+<label class="option"><input type="radio" name="q51" value="C"> <span>C) Elimina la necesidad de grabar la llamada</span></label>
+<label class="option"><input type="radio" name="q51" value="D"> <span>D) Sustituye por completo al agente</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q51')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q51">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>IVR</strong> (menú de voz): enruta la llamada al área correcta antes de llegar al agente.</div><div class="example-box">🟢 Menor tiempo de espera y resolución más rápida: el agente recibe con contexto (Screen Pop).</div>
+</div></div>
+<h2 id="ses9">📘 Sesión 9 — Reportes y Dashboards</h2>
+
+<div class="question" id="cont-q52">
+<p><span class="qnum">52</span><span class="qtag">Sesión 9</span></p>
+<p class="qtext">El área de Cobranza necesita una lista exacta de pólizas con prima vencida para gestionar cada cuenta y exportarla a Excel. ¿Qué herramienta debe usar?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q52" value="A"> <span>A) Un Reporte (tabla de registros exportable a Excel/CSV/PDF)</span></label>
+<label class="option"><input type="radio" name="q52" value="B"> <span>B) Un Dashboard (gráficas de un vistazo)</span></label>
+<label class="option"><input type="radio" name="q52" value="C"> <span>C) Una alerta de SLA</span></label>
+<label class="option"><input type="radio" name="q52" value="D"> <span>D) Un Workflow de Slack</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q52')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q52">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="example-box">🟢 <strong>Reporte:</strong> lista/tabla de registros, agrupable y exportable; ideal para trabajar los datos.</div><div class="concept-box">🔵 <strong>Dashboard:</strong> pantalla visual con gráficas y semáforos; no exporta registros individuales.</div><div class="tip-box">⚠️ Para "trabajar la lista" se usa Reporte; el Dashboard es para el estado general.</div>
+</div></div>
+<div class="question" id="cont-q53">
+<p><span class="qnum">53</span><span class="qtag">Sesión 9</span></p>
+<p class="qtext">El equipo comercial quiere recibir el reporte de Pipeline todos los lunes a las 8:00 a. m. sin tener que ejecutarlo manualmente. ¿Qué funcionalidad debes configurar?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q53" value="A"> <span>A) Un dashboard compartido estático</span></label>
+<label class="option"><input type="radio" name="q53" value="B"> <span>B) Una cola de Omnichannel</span></label>
+<label class="option"><input type="radio" name="q53" value="C"> <span>C) Un Approval Process</span></label>
+<label class="option"><input type="radio" name="q53" value="D"> <span>D) La suscripción/programación del reporte por email</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q53')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q53">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 Los reportes se pueden <strong>programar</strong>: envío automático por email (ej. cada lunes).</div><div class="tip-box">⚠️ El dashboard se refresca al abrirlo, pero el envío programado es funcionalidad de los reportes.</div>
+</div></div>
+<div class="question" id="cont-q54">
+<p><span class="qnum">54</span><span class="qtag">Sesión 9</span></p>
+<p class="qtext">Las alertas automáticas por vencimiento de póliza se disparan...</p>
+<div class="options">
+<label class="option"><input type="radio" name="q54" value="A"> <span>A) 15 días después del vencimiento, ya con la póliza vencida</span></label>
+<label class="option"><input type="radio" name="q54" value="B"> <span>B) Solo cuando el cliente pregunta por su renovación</span></label>
+<label class="option"><input type="radio" name="q54" value="C"> <span>C) 90/60/30 días antes del vencimiento: tarea al ejecutivo + aviso en Slack #renovaciones-urgentes</span></label>
+<label class="option"><input type="radio" name="q54" value="D"> <span>D) El mismo día del vencimiento para no molestar antes</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q54')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q54">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="concept-box">🔵 <strong>Vencimiento de póliza:</strong> 90/60/30 días antes → tarea automática y aviso en Slack.</div><div class="example-box">🟢 La identificación temprana activa todo el flujo de renovación (reporte → tarea → contacto).</div>
+</div></div>
+<div class="question" id="cont-q55">
+<p><span class="qnum">55</span><span class="qtag">Sesión 9</span></p>
+<p class="qtext">El gerente quiere ver en un vistazo siniestros abiertos vs. cerrados, el pipeline por etapa y primas por cobrar. ¿Cuál es la mejor herramienta?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q55" value="A"> <span>A) Un Work Item de la cola de cobranza</span></label>
+<label class="option"><input type="radio" name="q55" value="B"> <span>B) Un Dashboard con gráficas, contadores y semáforos que se refresca al abrirlo</span></label>
+<label class="option"><input type="radio" name="q55" value="C"> <span>C) Un Reporte tabular de cada dato por separado</span></label>
+<label class="option"><input type="radio" name="q55" value="D"> <span>D) Una suscripción semanal de un reporte</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q55')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q55">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="concept-box">🔵 <strong>Dashboard:</strong> semáforos, donas, barras y números grandes → decisiones rápidas de un vistazo.</div><div class="tip-box">⚠️ Si se necesitara exactitud registro por registro y exportación, sería Reporte; para visión general, Dashboard.</div>
+</div></div>
+<h2 id="ses10">📘 Sesión 10 — Slack + Cierre Integrador</h2>
+
+<div class="question" id="cont-q56">
+<p><span class="qnum">56</span><span class="qtag">Sesión 10</span></p>
+<p class="qtext">El canal #siniestros-complejos se llena de respuestas cruzadas sobre varios casos. ¿Qué práctica mantiene limpio el canal y organiza el contexto por caso?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q56" value="A"> <span>A) Responder en un Hilo (thread) al mensaje original de cada caso</span></label>
+<label class="option"><input type="radio" name="q56" value="B"> <span>B) Crear un nuevo canal público para cada mensaje</span></label>
+<label class="option"><input type="radio" name="q56" value="C"> <span>C) Enviar las respuestas por mensaje directo al jefe</span></label>
+<label class="option"><input type="radio" name="q56" value="D"> <span>D) Usar una única cadena de menciones @channel sin estructura</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q56')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q56">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="concept-box">🔵 <strong>Hilo (thread):</strong> respuesta anidada a un mensaje; mantiene limpio el canal y organizado el contexto.</div><div class="example-box">🟢 Buenas prácticas: si la conversación supera 5 mensajes, mover a Huddle o reunión.</div>
+</div></div>
+<div class="question" id="cont-q57">
+<p><span class="qnum">57</span><span class="qtag">Sesión 10</span></p>
+<p class="qtext">El Broker necesita coordinar la documentación de un siniestro directamente con la aseguradora (empresa externa). ¿Qué funcionalidad de Slack lo permite?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q57" value="A"> <span>A) Huddle dentro del canal interno</span></label>
+<label class="option"><input type="radio" name="q57" value="B"> <span>B) Workflow Builder de aprobaciones internas</span></label>
+<label class="option"><input type="radio" name="q57" value="C"> <span>C) Canvas del equipo</span></label>
+<label class="option"><input type="radio" name="q57" value="D"> <span>D) Slack Connect (canal compartido con una organización externa)</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q57')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q57">
+<div class="example-box">✅ <strong>Respuesta correcta: D)</strong></div>
+<div class="concept-box">🔵 <strong>Slack Connect:</strong> canal compartido con un cliente o partner externo (la aseguradora).</div><div class="tip-box">⚠️ Huddle = llamada interna; Canvas = documento colaborativo; Workflow = automatización sin código.</div>
+</div></div>
+<div class="question" id="cont-q58">
+<p><span class="qnum">58</span><span class="qtag">Sesión 10</span></p>
+<p class="qtext">Se desea que un formulario de escalamiento de casos cree automáticamente una alerta en el canal #escalamientos. ¿Qué herramienta de bajo código usas y en qué plataforma?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q58" value="A"> <span>A) Macro de la Service Console</span></label>
+<label class="option"><input type="radio" name="q58" value="B"> <span>B) Approval Process de Financial Cloud</span></label>
+<label class="option"><input type="radio" name="q58" value="C"> <span>C) Workflow Builder, en Slack</span></label>
+<label class="option"><input type="radio" name="q58" value="D"> <span>D) Flow Builder, en Salesforce (Record-Triggered Flow)</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q58')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q58">
+<div class="example-box">✅ <strong>Respuesta correcta: C)</strong></div>
+<div class="formula-box">🟠 Regla: <strong>Flow Builder</strong> automatiza datos/registros en Salesforce; <strong>Workflow Builder</strong> automatiza conversaciones/formularios dentro de Slack.</div><div class="tip-box">⚠️ Trampa clásica: "Flow" está en Salesforce; para alertas en Slack desde un formulario, es Workflow Builder.</div>
+</div></div>
+<div class="question" id="cont-q59">
+<p><span class="qnum">59</span><span class="qtag">Sesión 10</span></p>
+<p class="qtext">¿Qué permite la integración 'App de Salesforce en Slack'?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q59" value="A"> <span>A) Enviar pólizas impresas al asegurado</span></label>
+<label class="option"><input type="radio" name="q59" value="B"> <span>B) Ver y actualizar registros de Salesforce desde Slack: estado del Case, etapa de Opportunity, notas del Claim, crear Tareas</span></label>
+<label class="option"><input type="radio" name="q59" value="C"> <span>C) Reemplazar por completo a la consola de Salesforce</span></label>
+<label class="option"><input type="radio" name="q59" value="D"> <span>D) Grabar llamadas desde el canal</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q59')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q59">
+<div class="example-box">✅ <strong>Respuesta correcta: B)</strong></div>
+<div class="example-box">🟢 Acciones desde el chat: actualizar Case, cambiar etapa de Opportunity, agregar nota al Claim y crear Tarea — sin salir de la conversación.</div><div class="concept-box">🔵 Las alertas Salesforce→Slack llegan automáticas (Claim prioridad Alta → #siniestros-complejos).</div><div class="tip-box">⚠️ Salesforce sigue siendo la fuente de verdad; Slack es la conversación.</div>
+</div></div>
+<div class="question" id="cont-q60">
+<p><span class="qnum">60</span><span class="qtag">Sesión 10</span></p>
+<p class="qtext">En el ejercicio final se cerró un siniestro que se coordinó en Slack. Según el flujo integrado, ¿cuál es el cierre correcto del proceso?</p>
+<div class="options">
+<label class="option"><input type="radio" name="q60" value="A"> <span>A) Actualizar el Claim a 'Resuelto', documentar la solución, cerrar el Case vinculado y publicar el cierre en Slack</span></label>
+<label class="option"><input type="radio" name="q60" value="B"> <span>B) Borrar el hilo de Slack para eliminar evidencia</span></label>
+<label class="option"><input type="radio" name="q60" value="C"> <span>C) Solo escribir 'cerrado' en Slack y no tocar Salesforce</span></label>
+<label class="option"><input type="radio" name="q60" value="D"> <span>D) Convertir el Claim en una Opportunity de renovación</span></label>
+</div>
+<button class="btn-sol" onclick="toggleSol('q60')">🔍 Ver solución</button>
+<div class="sol-box" id="sol-q60">
+<div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div>
+<div class="formula-box">🟠 Regla de oro: <strong>lo que se coordina en Slack se registra en Salesforce.</strong></div><div class="example-box">🟢 Caso final: Voice → Case → Claim → coordinación Slack → reporte/dashboard → Claim "Resuelto" → Case cerrado → publicación en Slack.</div><div class="tip-box">⚠️ Slack documenta la conversación; Salesforce registra el resultado del negocio.</div>
+</div></div>
+<h2>📌 Reglas de Oro y Trampas Comunes del Temario</h2>
+<h3>🟠 Reglas de Oro</h3>
+<div class="formula-box">
+• Lo que se decide en Slack, se registra en Salesforce (Slack = conversación · SF = fuente de verdad)<br>
+• Nadie asigna manualmente: el sistema resuelve quién atiende (Colas y Omnichannel)<br>
+• Cada llamada = un Case con historial + grabación + resumen Einstein<br>
+• El Broker administra, NO suscribe ni liquida siniestros<br>
+• Lo que no está en el Action Plan puede olvidarse; lo que está, se hace y queda registrado
+</div>
+<h3>⚠️ Trampas Comunes en Examen</h3>
+<div class="tip-box">
+1. El SLA de respuesta al asegurado aplica al CASE, no al Claim.<br>
+2. Account(Business) es para empresas; las personas se registran con Account(Person).<br>
+3. El endoso modifica la póliza vigente; no se crea una póliza nueva.<br>
+4. El Claim se abre DESPUÉS del Case (FNOL); no al revés.<br>
+5. Dashboard no exporta registros individuales; el Reporte sí.<br>
+6. Flow Builder = Salesforce; Workflow Builder = Slack.<br>
+7. Atención usa Service+Omni+Voice; Siniestros usa Insurance+Service+Voice.
+</div>
+<h3>🧠 Repaso Activo (Active Recall)</h3>
+<div class="example-box">
+1. Sin mirar: dibuja el flujo end-to-end de un siniestro (6 pasos) con su objeto Salesforce en cada paso.<br>
+2. Explica con tus palabras la diferencia entre Case y Claim; y entre Reporte y Dashboard.<br>
+3. Antes de dormir: repite de memoria las 7 reglas de oro y las 7 trampas comunes.
+</div>
+<div class="score-panel" id="resPanel">
+<p class="big" id="resNum">0 / 0</p>
+<p class="pct" id="resPct">0%</p>
+<p id="resMsg" style="font-size:1.15em"></p>
+<p id="resLista"></p>
+<button class="btn-sol" onclick="reiniciar()">🔄 Reintentar examen</button>
+</div>
+<div class="resultbar">
+<span>Reactivos respondidos: <strong id="prog" style="color:#4ade80">0</strong>/60</span>
+<div class="bar-wrap"><div id="progbar"></div></div>
+<button id="btnRes" onclick="mostrarResultados()">✓ Mostrar resultados</button>
+</div>
+<script type="application/json" id="ans-data">{"q01":"D","q02":"C","q03":"B","q04":"A","q05":"D","q06":"C","q07":"B","q08":"A","q09":"D","q10":"C","q11":"B","q12":"A","q13":"D","q14":"C","q15":"B","q16":"A","q17":"D","q18":"C","q19":"B","q20":"A","q21":"D","q22":"C","q23":"B","q24":"A","q25":"D","q26":"C","q27":"B","q28":"A","q29":"D","q30":"C","q31":"B","q32":"A","q33":"D","q34":"C","q35":"B","q36":"A","q37":"D","q38":"C","q39":"B","q40":"A","q41":"D","q42":"C","q43":"B","q44":"A","q45":"D","q46":"C","q47":"B","q48":"A","q49":"D","q50":"C","q51":"B","q52":"A","q53":"D","q54":"C","q55":"B","q56":"A","q57":"D","q58":"C","q59":"B","q60":"A"}</script>
+<script>
+var ANS = JSON.parse(document.getElementById('ans-data').textContent);
+function totalQ(){return Object.keys(ANS).length;}
+function actualizar(){
+  var names={};
+  var radios=document.querySelectorAll('input[type=radio]:checked');
+  for(var i=0;i<radios.length;i++){names[radios[i].name]=1;}
+  var n=Object.keys(names).length;
+  document.getElementById('prog').textContent=n;
+  document.getElementById('progbar').style.width=Math.round(n/totalQ()*100)+'%';
+  document.getElementById('btnRes').style.display=(n>=totalQ())?'inline-block':'none';
+}
+document.querySelectorAll('input[type=radio]').forEach(function(r){r.addEventListener('change',actualizar);});
+function mostrarResultados(){
+  var aci=0,err=[],total=totalQ();
+  Object.keys(ANS).forEach(function(qid){
+    var sel=document.querySelector('input[name="'+qid+'"]:checked');
+    var cont=document.getElementById('cont-'+qid);
+    if(!sel)return;
+    if(sel.value===ANS[qid]){
+      aci++;
+      sel.closest('.option').classList.add('opt-correct');
+      cont.classList.add('ok');
+    }else{
+      sel.closest('.option').classList.add('opt-wrong');
+      var radios=document.querySelectorAll('input[name="'+qid+'"]');
+      for(var i=0;i<radios.length;i++){if(radios[i].value===ANS[qid]){radios[i].closest('.option').classList.add('opt-correct');}}
+      document.getElementById('sol-'+qid).style.display='block';
+      cont.classList.add('bad');
+      err.push(qid);
+    }
+  });
+  var pct=Math.round(aci/total*100);
+  var msg = pct===100?'🏆 ¡Perfecto! Dominas todo el temario.'
+           : pct>=90?'🥇 Nivel experto: listo para el examen.'
+           : pct>=75?'✅ Buen nivel: refuerza tus fallos.'
+           : pct>=60?'⚠️ Revisa las secciones donde fallaste.'
+           : '📚 Te conviene repasar el temario y reintentar.';
+  var lista=err.map(function(q){return '<a href="#'+q+'">'+q.replace('q','')+'</a>';}).join(' ');
+  document.getElementById('resPanel').style.display='block';
+  document.getElementById('resNum').textContent=aci+' / '+total;
+  document.getElementById('resPct').textContent=pct+'%';
+  document.getElementById('resMsg').textContent=msg;
+  document.getElementById('resLista').innerHTML=err.length?'🔴 Reactivos incorrectos (opción correcta resaltada y justificada): '+lista:'🎯 Todos correctos';
+  document.getElementById('resPanel').scrollIntoView({behavior:'smooth'});
+}
+function toggleSol(qid){
+  var e=document.getElementById('sol-'+qid);
+  e.style.display=(e.style.display==='block')?'none':'block';
+}
+function reiniciar(){
+  document.querySelectorAll('input[type=radio]').forEach(function(r){r.checked=false;});
+  document.querySelectorAll('.opt-correct,.opt-wrong').forEach(function(e){e.classList.remove('opt-correct','opt-wrong');});
+  document.querySelectorAll('.question.ok,.question.bad').forEach(function(e){e.classList.remove('ok','bad');});
+  document.querySelectorAll('.sol-box').forEach(function(e){e.style.display='none';});
+  document.getElementById('resPanel').style.display='none';
+  actualizar();window.scrollTo(0,0);
+}
+</script>
+<div class='footer'><p>🎓 Generado por <strong>ParetoTutor Visual</strong> · Basado en la presentación del programa de capacitación Salesforce FSC &amp; Slack (MC Brokers)</p></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Bytecode Python
+__pycache__/
+*.py[cod]
+
+# === Material de ingesta (NO subir) ===
+# Contiene: libro con copyright (30 MB), PDF de capacitación empresarial
+# y datos personales del CV. Solo vive en local.
+Matería/
+_extract_*.txt
+
+# PDFs en general (el material fuente es local)
+*.pdf
+*.jpg
+*.jpeg
+*.png

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>Exámenes Interactivos de Probabilidad - ParetoTutor Visual</title>
+
+<style>
+body{font-family:Segoe UI;background:#0F172A;color:#e2e8f0;line-height:1.6;margin:0;padding:20px}
+h1{color:#bae6fd;text-align:center;border-bottom:3px solid #38bdf8;padding-bottom:10px}
+h2{color:#38bdf8;margin-top:40px;border-left:5px solid #38bdf8;padding-left:10px}
+h3{color:#fef3c7;margin-top:25px}
+.container{max-width:1100px;margin:0 auto;padding:20px;background:rgba(15,23,42,0.8);border-radius:10px;box-shadow:0 0 20px rgba(56,189,248,0.2)}
+.question{background:rgba(255,255,255,0.05);border-left:4px solid #38bdf8;padding:15px;margin-bottom:20px;border-radius:5px}
+.options{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.option{display:flex;align-items:center;background:rgba(56,189,248,0.1);border:2px solid #38bdf8;color:#bae6fd;padding:8px;border-radius:5px;cursor:pointer}
+.option:hover{background:rgba(56,189,248,0.2)}
+.solution{background:rgba(34,197,94,0.1);border-left:4px solid #22c55e;padding:12px;margin-top:10px;border-radius:5px;display:none}
+.btn-toggle{background:#f59e0b;color:#0f1729;border:none;padding:6px 12px;border-radius:5px;cursor:pointer;font-weight:bold;margin-top:8px}
+.formula-box{background:rgba(245,158,11,0.1);border:2px solid #f59e0b;color:#fef3c7;padding:8px;border-radius:5px;font-family:monospace;text-align:center;margin:8px 0}
+.tip-box{background:rgba(248,113,113,0.1);border:2px solid #ef4444;color:#fecaca;padding:8px;border-radius:5px;font-size:0.9em;margin-top:6px}
+.concept-box{background:rgba(56,189,248,0.1);border:2px solid #38bdf8;color:#bae6fd;padding:8px;border-radius:5px;font-size:0.9em}
+.example-box{background:rgba(34,197,94,0.1);border:2px solid #22c55e;color:#bbf7d0;padding:8px;border-radius:5px;font-size:0.9em;margin-top:6px}
+table.symb{border-collapse:collapse;margin:10px auto;width:100%}
+table.symb th,table.symb td{border:1px solid #475569;padding:6px 10px;text-align:left}
+table.symb th{background:rgba(100,116,139,0.2);color:#e0e0ff}
+.tree{background:rgba(30,41,59,0.9);border:2px dashed #475569;color:#cbd5e1;padding:12px;border-radius:8px;font-family:monospace;white-space:pre;overflow-x:auto;margin:10px 0;line-height:1.45}
+.nav{background:rgba(15,23,42,0.9);padding:12px;border-radius:8px;margin-bottom:20px;text-align:center}
+.nav a{color:#38bdf8;text-decoration:none;margin:3px 8px;font-weight:bold}
+.nav a:hover{color:#bae6fd;text-decoration:underline}
+.footer{text-align:center;margin-top:40px;padding:12px;color:#64748b;font-size:0.9em}
+</style>
+</head>
+<body>
+<div class='container'>
+<h1>🎓 Exámenes Interactivos de Probabilidad</h1>
+<p style='text-align:center; color:#94a3b8;'>Exámenes reales IPN - UPIICSA · Resoluciones explicadas paso a paso · Código de colores (🔵🔴🟢🟠)</p>
+
+<h2>🌳 Árbol de Decisión: ¿Qué fórmula usar?</h2>
+<div class="tree">
+¿Cuál es la pregunta del problema?      -> Fórmula
+├─ "¿de qué causa proviene lo observado?" -> BAYES: P(A|B)=P(A)·P(B|A)/ΣP(Aᵢ)P(B|Aᵢ)
+├─ "¿n intentos fijos con éxito/fracaso?"  -> BINOMIAL: C(n,k)·pᵏ·qⁿ⁻ᵏ
+├─ "¿hasta el PRIMER éxito?"               -> GEOMÉTRICA: (1-p)ᵏ⁻¹·p
+├─ "¿éxitos en intervalo de tiempo/espacio,"-> POISSON: e⁻λ·λᵏ/k!
+│   sucesos raros, λ media?"
+├─ "¿sin reemplazo y población finita?"    -> HIPERGEOMÉTRICA: C(K,k)·C(N-K,n-k)/C(N,n)
+├─ "¿tiempos de espera / vida útil (μ medio)"-> EXPONENCIAL: P(X>t)=e⁻ᵗ/μ
+├─ "¿variable continua en campana (μ,σ)?"   -> NORMAL: z=(x−μ)/σ
+└─ "¿se ordenan/escogen elementos?"         -> COMBINATORIA (permutaciones/combinaciones)
+</p>
+</div>
+
+<h2>🧮 Tabla de Notación de Símbolos</h2>
+<table class="symb">
+<tr><th>Símbolo</th><th>Significado</th></tr>
+<tr><td>P(A|B)</td><td>Probabilidad de A dado B</td></tr>
+<tr><td>μ</td><td>Media poblacional / valor esperado</td></tr>
+<tr><td>σ, σ²</td><td>Desviación estándar, varianza</td></tr>
+<tr><td>λ</td><td>Tasa media (Poisson, Exponencial)</td></tr>
+<tr><td>n, p, q</td><td>Nº ensayos, prob. éxito, prob. fracaso (q=1−p)</td></tr>
+<tr><td>C(n,r)</td><td>Combinaciones de n tomando r</td></tr>
+<tr><td>Φ(z)</td><td>Función de distribución normal estándar</td></tr>
+<tr><td>E(X), Var(X)</td><td>Esperanza y varianza de una variable aleatoria</td></tr>
+<tr><td>e</td><td>Base del logaritmo natural ≈ 2.71828</td></tr>
+</table>
+
+<div class="nav">
+<a href='#exam1'>📝1 EXAMEN EXTRAORDINARIO</a>
+<a href='#exam2'>📝2 EXAMEN SUFICIENCIA 2017</a>
+<a href='#exam3'>📝3 EXAMEN SUFICIENCIA 2012</a>
+<a href='#exam4'>📝4 EXAMEN JUNIO 2016</a>
+<a href='#exam5'>📝5 PRIMER DEPARTAMENTAL</a>
+<a href='#exam6'>📝6 EXAMEN JUNIO 2016</a>
+<a href='#exam7'>📝7 EXAMEN ENERO 2003</a>
+<a href='#exam8'>📝8 SEGUNDO EXAMEN</a>
+</div>
+
+<h2 id='exam1'>📝 EXAMEN EXTRAORDINARIO (2019)</h2>
+<p>Turno Vespertino / 22-Ene-2019</p>
+
+<div class="question"><p><strong>1. (Probabilidad Total y Bayes) Una fábrica tiene 3 líneas: L1=50%, L2=30%, L3=20%. Las piezas defectuosas son: L1=3%, L2=4%, L3=5%. (a) ¿Cuál es la probabilidad de que una pieza elegida al azar sea defectuosa? (b) Si salió defectuosa, ¿cuál es la probabilidad de que provenga de L3?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q1ab"> A) (a) 0.037, (b) 0.270</label>
+<label class="option"><input type="radio" name="q1ab"> B) (a) 0.0370, (b) 0.4054</label>
+<label class="option"><input type="radio" name="q1ab"> C) (a) 0.042, (b) 0.270</label>
+<label class="option"><input type="radio" name="q1ab"> D) (a) 0.037, (b) 0.220</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q1ab')">🔍 Ver Solución</button>
+<div id='q1ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Ley de Probabilidad Total y Teorema de Bayes.</div><div class="formula-box">(a) P(D) = P(L₁)·P(D|L₁) + P(L₂)·P(D|L₂) + P(L₃)·P(D|L₃)</div><div class="example-box">🟢 0.50×0.03 + 0.30×0.04 + 0.20×0.05 = 0.015 + 0.012 + 0.010 = <strong>0.037 (3.7%)</strong></div><div class="formula-box">(b) P(L₃|D) = [P(L₃)·P(D|L₃)] / P(D)</div><div class="example-box">🟢 (0.20×0.05) / 0.037 = 0.010 / 0.037 = <strong>0.270 (27.0%)</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> El denominador SIEMPRE es P(D) total = 0.037, no solo una línea.</div></div>
+</div>
+
+<div class="question"><p><strong>2. (Aproximación Normal a la Binomial) El 5% de los libros prestados son técnicos. De 500 préstamos: (a) ¿P(entre 25 y 30 inclusive sean técnicos)? (b) ¿P(más de 22 sean técnicos)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q2ab"> A) (a) 0.411, (b) 0.696</label>
+<label class="option"><input type="radio" name="q2ab"> B) (a) 0.441, (b) 0.736</label>
+<label class="option"><input type="radio" name="q2ab"> C) (a) 0.391, (b) 0.666</label>
+<label class="option"><input type="radio" name="q2ab"> D) (a) 0.461, (b) 0.646</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q2ab')">🔍 Ver Solución</button>
+<div id='q2ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Aproximación normal a binomial con corrección de continuidad (±0.5).</div><div class="formula-box">μ = n·p = 500×0.05 = <strong>25</strong>; σ = √(n·p·q) = √23.75 ≈ <strong>4.873</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Aplicar corrección de ±0.5 (continuidad) antes de tipificar.</div><div class="example-box">🟢 <strong>(a)</strong> Entre 25 y 30 (incl.) → 24.5 a 30.5<br>z₁ ≈ -0.10 , z₂ ≈ 1.13<br>P ≈ Φ(1.13) − Φ(-0.10) = <strong>0.411</strong></div><div class="example-box">🟢 <strong>(b)</strong> Más de 22 → X > 22.5<br>z ≈ -0.51 → P = 1 − Φ(-0.51) = <strong>0.696</strong></div></div>
+</div>
+
+<h2 id='exam2'>📝 EXAMEN SUFICIENCIA 2017 (MATUTINO)</h2>
+<p>Turno Matutino / 17-Ene-2017</p>
+
+<div class="question"><p><strong>2. (V.A.D. - Dados) Un dado se lanza dos veces. Sea X la suma obtenida. (a) Construye la distribución de probabilidad de X. (b) Calcula E(X) y Var(X).</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="qsuma"> A) E(X)=7, Var≈2.92</label>
+<label class="option"><input type="radio" name="qsuma"> B) E(X)=7, Var≈5.83</label>
+<label class="option"><input type="radio" name="qsuma"> C) E(X)=6.5, Var≈6.25</label>
+<label class="option"><input type="radio" name="qsuma"> D) E(X)=7.5, Var≈2.92</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('qsuma')">🔍 Ver Solución</button>
+<div id='qsuma' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> 36 resultados equiprobables; sumas 2..12 con frecuencias 1,2,3,4,5,6,5,4,3,2,1.</div><div class="formula-box">E(X) = 252/36 = <strong>7</strong></div><div class="formula-box">Var(X) = E(X²) − [E(X)]² = 329/36 − 49 = <strong>35/12 ≈ 2.92</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> La suma 7 tiene 6 combinaciones; es la más probable.</div></div>
+</div>
+
+<div class="question"><p><strong>3. (Probabilidad Condicional y Bayes) En un grupo, 60% son hombres. El 30% de los hombres y el 20% de las mujeres usan lentes. (a) ¿P(no use lentes)? (b) Si usa lentes, ¿P(hombre)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q3abcd"> A) (a) 0.74, (b) ≈ 0.69</label>
+<label class="option"><input type="radio" name="q3abcd"> B) (a) 0.74, (b) ≈ 0.24</label>
+<label class="option"><input type="radio" name="q3abcd"> C) (a) 0.26, (b) ≈ 0.69</label>
+<label class="option"><input type="radio" name="q3abcd"> D) (a) 0.82, (b) ≈ 0.69</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q3abcd')">🔍 Ver Solución</button>
+<div id='q3abcd' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="formula-box">(a) P(No L) = 0.6×0.7 + 0.4×0.8 = 0.42 + 0.32 = <strong>0.74</strong></div><div class="formula-box">(b) P(H|L) = (0.6×0.3) / (0.26) = 0.18/0.26 ≈ <strong>0.69</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> El denominador es P(L)=0.26, NO P(no L)=0.74.</div></div>
+</div>
+
+<div class="question"><p><strong>5. (Distribución Normal) El tiempo de vuelo CDMX−MTY es 95 min, σ²=9 min². (a) ¿P(X<90)? (b) ¿Tiempo mínimo del 15% de vuelos más lentos?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q5abcd"> A) (a) ≈ 0.0475, (b) ≈ 98.1 min</label>
+<label class="option"><input type="radio" name="q5abcd"> B) (a) ≈ 0.4522, (b) ≈ 98.1 min</label>
+<label class="option"><input type="radio" name="q5abcd"> C) (a) ≈ 0.0475, (b) ≈ 91.9 min</label>
+<label class="option"><input type="radio" name="q5abcd"> D) (a) ≈ 0.9545, (b) ≈ 98.1 min</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q5abcd')">🔍 Ver Solución</button>
+<div id='q5abcd' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="formula-box">μ = 95; σ = √9 = 3</div><div class="example-box">🟢 (a) z = (90−95)/3 = −1.67 → Φ(−1.67) ≈ <strong>0.0475</strong></div><div class="example-box">🟢 (b) Percentil 85 → z≈1.036 → x = 95 + 1.036×3 ≈ <strong>98.1 min</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Usar σ=3 al tipificar, no σ²=9.</div></div>
+</div>
+
+<h2 id='exam3'>📝 EXAMEN SUFICIENCIA 2012 (MATUTINO)</h2>
+<p>Turno Matutino / 13-Ago-2012</p>
+
+<div class="question"><p><strong>1. (V.A.D.) f(x)=(x²−2x)/50 para x=3,4,5,6 (y 0 en otro caso). ¿Cuál es la desviación estándar?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q3_1ab"> A) σ ≈ 0.92</label>
+<label class="option"><input type="radio" name="q3_1ab"> B) σ ≈ 1.17</label>
+<label class="option"><input type="radio" name="q3_1ab"> C) σ ≈ 1.25</label>
+<label class="option"><input type="radio" name="q3_1ab"> D) σ ≈ 1.08</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q3_1ab')">🔍 Ver Solución</button>
+<div id='q3_1ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> σ = √Var = √(E(X²) − [E(X)]²).</div><div class="formula-box">P(3)=3/50; P(4)=8/50; P(5)=15/50; P(6)=24/50 (suma=1 ✔)</div><div class="example-box">🟢 E(X) = 5.20<br>E(X²) = 27.88<br>Var = 27.88 − 5.20² = 0.84 → σ = √(0.84) = <strong>0.92</strong></div></div>
+</div>
+
+<div class="question"><p><strong>3. (Binomial) Un arquero tiene p=0.80 de acertar; puede hacer a lo más 5 lanzamientos independientes. (a) ¿P(acierte a lo más en 3 lanzamientos)? (b) ¿P(acierte en por lo menos 2)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q3_3ab"> A) (a) 0.263, (b) 0.993</label>
+<label class="option"><input type="radio" name="q3_3ab"> B) (a) 0.007, (b) 0.993</label>
+<label class="option"><input type="radio" name="q3_3ab"> C) (a) 0.500, (b) 0.993</label>
+<label class="option"><input type="radio" name="q3_3ab"> D) (a) 0.313, (b) 0.943</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q3_3ab')">🔍 Ver Solución</button>
+<div id='q3_3ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Binomial P(X=k)=C(n,k)·pᵏ·qⁿ⁻ᵏ con n=5, p=0.8, q=0.2.</div><div class="formula-box">P(X≤3) = Σ P(X=k) para k=0..3 = <strong>0.263</strong></div><div class="example-box">🟢 O bien: P(X≤3) = 1 − P(X=4) − P(X=5) = 1 − 0.4096 − 0.3277 = <strong>0.263</strong></div><div class="formula-box">P(X≥2) = 1 − P(X=0) − P(X=1) = 1 − 0.0003 − 0.0064 = <strong>0.993</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> "A lo más 3" = P(X≤3); "por lo menos 2" = 1−P(X≤1).</div></div>
+</div>
+
+<div class="question"><p><strong>4. (Poisson) La probabilidad de que una persona tenga una enfermedad infecciosa es 0.01. De 1000 personas examinadas: (a) ¿P(a lo más 5 enfermas)? (b) ¿P(al menos 11 enfermas)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q3_4ab"> A) (a) 0.067, (b) 0.417</label>
+<label class="option"><input type="radio" name="q3_4ab"> B) (a) 0.067, (b) 0.500</label>
+<label class="option"><input type="radio" name="q3_4ab"> C) (a) 0.058, (b) 0.632</label>
+<label class="option"><input type="radio" name="q3_4ab"> D) (a) 0.729, (b) 0.417</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q3_4ab')">🔍 Ver Solución</button>
+<div id='q3_4ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> n grande y p pequeño → Poisson con λ = n·p = 1000×0.01 = <strong>10</strong>.</div><div class="formula-box">P(X=k) = e^(−λ)·λᵏ/k!</div><div class="example-box">🟢 (a) P(X≤5) = P(0)+P(1)+...+P(5) = <strong>0.067</strong></div><div class="example-box">🟢 (b) P(X≥11) = 1 − P(X≤10) = 1 − 0.583 = <strong>0.417</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> λ debe ajustarse al tamaño total (n·p), aquí λ=10.</div></div>
+</div>
+
+<div class="question"><p><strong>5. (Normal) El tiempo de un taxista es N(25, 5²) minutos. (a) ¿P(tarde a lo más 20 min)? (b) ¿P(tarde entre 22 y 30 min)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q3_5ab"> A) (a) 0.159, (b) 0.567</label>
+<label class="option"><input type="radio" name="q3_5ab"> B) (a) 0.159, (b) 0.587</label>
+<label class="option"><input type="radio" name="q3_5ab"> C) (a) 0.159, (b) 0.640</label>
+<label class="option"><input type="radio" name="q3_5ab"> D) (a) 0.119, (b) 0.567</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q3_5ab')">🔍 Ver Solución</button>
+<div id='q3_5ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Tipificar z=(x−μ)/σ.</div><div class="formula-box">(a) z=(20−25)/5 = −1 → P(Z<−1) = <strong>0.159</strong></div><div class="example-box">🟢 (b) z₁=(22−25)/5=−0.6; z₂=(30−25)/5=1 → P = Φ(1)−Φ(−0.6) = <strong>0.567</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Restar Φ del límite menor: Φ(z₂)−Φ(z₁).</div></div>
+</div>
+
+<h2 id='exam4'>📝 EXAMEN JUNIO 2016 (Vespertino)</h2>
+<p>Turno Vespertino / 16-Jun-2016</p>
+
+<div class="question"><p><strong>1. (Exponencial) La duración de llamadas sigue exponencial con media 4.5 min. (a) ¿Qué porcentaje supera los 2 min? (b) De 8 llamadas, ¿P(por lo menos la mitad duran < 2 min)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q4_1ab"> A) (a) 64%, (b) ≈ 0.313</label>
+<label class="option"><input type="radio" name="q4_1ab"> B) (a) 69%, (b) ≈ 0.363</label>
+<label class="option"><input type="radio" name="q4_1ab"> C) (a) 56%, (b) ≈ 0.687</label>
+<label class="option"><input type="radio" name="q4_1ab"> D) (a) 64%, (b) ≈ 0.233</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q4_1ab')">🔍 Ver Solución</button>
+<div id='q4_1ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Exponencial: P(X>t)=e^(−λt) con λ=1/μ.</div><div class="formula-box">λ = 1/4.5 ≈ 0.222<br>P(X>2) = e^(−2/4.5) = e^(−0.444) ≈ <strong>0.64 (64%)</strong></div><div class="example-box">🟢 (b) P(X<2) = 1−e^(−0.444) ≈ 0.359; Y~Bin(8, 0.359):</div><div class="formula-box">P(Y≥4) = <strong>0.313</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> λ=1/μ (≈0.222), no 4.5. "Al menos la mitad de 8" = 4 o más.</div></div>
+</div>
+
+<div class="question"><p><strong>2. (V.A. Continua - constante k) f(x)=2kx si x<2; f(x)=1−2kx si 2≤x≤4; 0 en otro caso. (a) Halla k para que sea densidad. (b) Halla la varianza.</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q4_2ab"> A) (a) k = 0.125, (b) Var = 0.67</label>
+<label class="option"><input type="radio" name="q4_2ab"> B) (a) k = 0.125, (b) Var = 1.33</label>
+<label class="option"><input type="radio" name="q4_2ab"> C) (a) k = 0.25, (b) Var = 0.67</label>
+<label class="option"><input type="radio" name="q4_2ab"> D) (a) k = 0.25, (b) Var = 1.33</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q4_2ab')">🔍 Ver Solución</button>
+<div id='q4_2ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> ∫f = 1 sobre todo el dominio (densidad).</div><div class="formula-box">∫₀² 2kx dx + ∫₂⁴ (1−2kx) dx = 1</div><div class="example-box">🟢 [kx²]₀² = 4k ; [x−kx²]₂⁴ = 2−12k → total 2−8k = 1 → <strong>k = 1/8 = 0.125</strong></div><div class="example-box">🟢 Con k=1/8: f(x)=x/4 (0≤x<2) y 1−x/4 (2≤x≤4):<br>E(X) = 0.667 + 2.667 − 1.333 = <strong>2</strong><br>E(X²) = 1 + 5.333 − 1.667 = 14/3<br>′Var = 14/3 − 2² = 14/3 − 12/3 = <strong>2/3 ≈ 0.67</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Asegurar que la función sea continua y sume 1 en TODO el intervalo.</div></div>
+</div>
+
+<div class="question"><p><strong>3. (Probabilidad Total y Bayes) La máquina M1 empaca el 60% (1% con falla de sellado) y M2 el 40% (2% con falla). (a) ¿P(una bolsa tenga problema de sellado)? (b) Si tuvo falla, ¿P(sea de M2)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q4_3ab"> A) (a) 0.014, (b) 0.571</label>
+<label class="option"><input type="radio" name="q4_3ab"> B) (a) 0.014, (b) 0.621</label>
+<label class="option"><input type="radio" name="q4_3ab"> C) (a) 0.018, (b) 0.571</label>
+<label class="option"><input type="radio" name="q4_3ab"> D) (a) 0.014, (b) 0.400</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q4_3ab')">🔍 Ver Solución</button>
+<div id='q4_3ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Probabilidad total y Bayes con dos máquinas.</div><div class="formula-box">(a) P(F) = 0.6×0.01 + 0.4×0.02 = 0.006 + 0.008 = <strong>0.014 (1.4%)</strong></div><div class="formula-box">(b) P(M2|F) = (0.4×0.02)/0.014 = 0.008/0.014 ≈ <strong>0.57 (57%)</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> El denominador es P(F) total (0.014), no 0.008.</div></div>
+</div>
+
+<div class="question"><p><strong>4. (Binomial - examen aleatorio) Un examen tiene 120 reactivos con 3 opciones cada uno. Al contestar al azar: (a) ¿Cuántas correctas se esperan? (b) ¿P(al menos la cuarta parte correctas)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q4_4ab"> A) (a) ≈ 40, (b) ≈ 0.979</label>
+<label class="option"><input type="radio" name="q4_4ab"> B) (a) ≈ 40, (b) ≈ 0.017</label>
+<label class="option"><input type="radio" name="q4_4ab"> C) (a) ≈ 80, (b) ≈ 0.979</label>
+<label class="option"><input type="radio" name="q4_4ab"> D) (a) ≈ 40, (b) ≈ 0.998</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q4_4ab')">🔍 Ver Solución</button>
+<div id='q4_4ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Binomial n=120, p=1/3. E(X)=n·p.</div><div class="formula-box">E(X) = 120 × 1/3 = <strong>40 correctas</strong></div><div class="example-box">🟢 (b) La cuarta parte de 120 = 30. Con aproximación normal (np=40, σ≈5.2) y corrección 0.5:</div><div class="formula-box">P(X≥30) ≈ 1 − Φ((29.5−40)/5.2) = 1 − Φ(−2.03) ≈ <strong>0.979</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> La cuarta parte de 120 es 30, no 40 (la esperanza).</div></div>
+</div>
+
+<div class="question"><p><strong>5. (Normal - tornillos) Los diámetros son N(3.0, 0.0025). Un tornillo es adecuado si su diámetro está en 3.0±0.10 mm. (a) ¿Qué % es desechado? (b) ¿P(el primer desechado antes del tercero que se inspeccione)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q4_5ab"> A) (a) 4.56%, (b) 0.087</label>
+<label class="option"><input type="radio" name="q4_5ab"> B) (a) 4.56%, (b) 0.912</label>
+<label class="option"><input type="radio" name="q4_5ab"> C) (a) 0.38%, (b) 0.087</label>
+<label class="option"><input type="radio" name="q4_5ab"> D) (a) 95.44%, (b) 0.087</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q4_5ab')">🔍 Ver Solución</button>
+<div id='q4_5ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Normal: σ=√0.0025=0.05. Límites 3.0±0.10 → z=±2.</div><div class="formula-box">P(desechado) = 2×P(Z<−2) = 2×0.0228 = <strong>0.0456 (4.56%)</strong></div><div class="example-box">🟢 (b) Geométrica con p=0.0456: P(primer desechado en 1º o 2º intento) = p + (1−p)·p ≈ <strong>0.087</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> "Antes del tercero" = desechado en intento 1 o 2; usa σ=0.05, no la varianza.</div></div>
+</div>
+
+<h2 id='exam5'>📝 PRIMER DEPARTAMENTAL (2017)</h2>
+<p>Turno Matutino / 11-Sep-2017</p>
+
+<div class="question"><p><strong>1. (Naipes) De una baraja de 52 cartas: A={espada}, B={figura (J,Q,K,As)}, C={Rey}. (a) ¿P(A∩B)? (b) ¿P(Bᶜ∩C)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q5_1ab"> A) (a) 1/13, (b) 0</label>
+<label class="option"><input type="radio" name="q5_1ab"> B) (a) 3/52, (b) 1/13</label>
+<label class="option"><input type="radio" name="q5_1ab"> C) (a) 4/13, (b) 1/52</label>
+<label class="option"><input type="radio" name="q5_1ab"> D) (a) 1/4, (b) 4/52</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q5_1ab')">🔍 Ver Solución</button>
+<div id='q5_1ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Hay 13 cartas por palo; 4 figuras por palo (J,Q,K,As).</div><div class="example-box">🟢 (a) A∩B = espadas que son figura (J♠,Q♠,K♠,A♠) = 4 cartas → <strong>4/52 = 1/13</strong></div><div class="example-box">🟢 (b) Bᶜ = no es figura; pero todo Rey (K) ES figura → Bᶜ∩C = ∅ → <strong>0</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> El As (A) también es figura en este contexto.</div></div>
+</div>
+
+<div class="question"><p><strong>2. (Eventos mutuamente excluyentes) A y B mutuamente excluyentes con P(Aᶜ)=0.6 y P(Bᶜ)=0.7. (a) ¿P(A∪B)? (b) ¿P(A∪B)ᶜ?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q5_2ab"> A) (a) 0.70, (b) 0.30</label>
+<label class="option"><input type="radio" name="q5_2ab"> B) (a) 0.30, (b) 0.70</label>
+<label class="option"><input type="radio" name="q5_2ab"> C) (a) 0.70, (b) 0.12</label>
+<label class="option"><input type="radio" name="q5_2ab"> D) (a) 0.42, (b) 0.58</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q5_2ab')">🔍 Ver Solución</button>
+<div id='q5_2ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> A y B mutuamente excluyentes → P(A∪B)=P(A)+P(B).</div><div class="formula-box">P(A) = 1−0.6 = 0.4 ; P(B) = 1−0.7 = 0.3</div><div class="example-box">🟢 (a) P(A∪B) = 0.4 + 0.3 = <strong>0.7</strong></div><div class="example-box">🟢 (b) P(A∪B)ᶜ = 1 − 0.7 = <strong>0.3</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Mutuamente excluyentes NO significa complementarios.</div></div>
+</div>
+
+<div class="question"><p><strong>3. (Bayes - Don Gato) Panzas 19% (atrapado 0.08), Demóstenes 35% (0.075), Cucho 25% (0.10), Benito 21% (0.05). (a) ¿P(ninguno sea atrapado)? (b) Si uno es atrapado, ¿P(sea Benito)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q5_3ab"> A) (a) 0.923, (b) 0.136</label>
+<label class="option"><input type="radio" name="q5_3ab"> B) (a) 0.077, (b) 0.136</label>
+<label class="option"><input type="radio" name="q5_3ab"> C) (a) 0.923, (b) 0.377</label>
+<label class="option"><input type="radio" name="q5_3ab"> D) (a) 0.950, (b) 0.136</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q5_3ab')">🔍 Ver Solución</button>
+<div id='q5_3ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Probabilidad total (atrapado) y Bayes (cuál gatito).</div><div class="formula-box">P(Atrapan) = 0.19×0.08 + 0.35×0.075 + 0.25×0.10 + 0.21×0.05 ≈ <strong>0.077</strong></div><div class="formula-box">(a) P(ninguno) = 1 − 0.077 = <strong>0.923</strong></div><div class="formula-box">(b) P(Benito|A) = (0.21×0.05)/(0.077) ≈ <strong>0.14</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> En (b) el denominador es P(atrapan) total.</div></div>
+</div>
+
+<div class="question"><p><strong>4. (Sin reemplazo - reinas) Se extraen 2 cartas sin reemplazo de una baraja. (a) ¿P(la 2ª sea reina si la 1ª no fue reina)? (b) ¿P(al menos una reina)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q5_4ab"> A) (a) 0.078, (b) 0.149</label>
+<label class="option"><input type="radio" name="q5_4ab"> B) (a) 0.078, (b) 0.851</label>
+<label class="option"><input type="radio" name="q5_4ab"> C) (a) 0.077, (b) 0.149</label>
+<label class="option"><input type="radio" name="q5_4ab"> D) (a) 0.059, (b) 0.149</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q5_4ab')">🔍 Ver Solución</button>
+<div id='q5_4ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Extracción sin reemplazo reduce el espacio muestral.</div><div class="example-box">🟢 (a) Si la 1ª NO fue reina: quedan 51 cartas, 4 reinas → <strong>4/51 ≈ 0.078</strong></div><div class="example-box">🟢 (b) P(≥1 reina) = 1 − P(ninguna) = 1 − (48/52)×(47/51) ≈ <strong>0.149</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> En (a) el denominador es 51, no 52 (ya se sacó una carta).</div></div>
+</div>
+
+<div class="question"><p><strong>5. (Dados - suma) Se lanzan 2 dados. X = suma de las caras. (a) ¿P(X sea divisor de 12)? (b) ¿P(X sea múltiplo de 3)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q5_5ab"> A) (a) 0.333, (b) 0.333</label>
+<label class="option"><input type="radio" name="q5_5ab"> B) (a) 0.333, (b) 0.443</label>
+<label class="option"><input type="radio" name="q5_5ab"> C) (a) 0.500, (b) 0.333</label>
+<label class="option"><input type="radio" name="q5_5ab"> D) (a) 0.333, (b) 0.167</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q5_5ab')">🔍 Ver Solución</button>
+<div id='q5_5ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> 36 resultados equiprobables. Contar sumas favorables.</div><div class="formula-box">Frecuencias: 2(1) 3(2) 4(3) 5(4) 6(5) 7(6) 8(5) 9(4) 10(3) 11(2) 12(1)</div><div class="example-box">🟢 (a) Divisores de 12: 2,3,4,6,12 → 12 casos → <strong>0.333</strong></div><div class="example-box">🟢 (b) Múltiplos de 3: 3,6,9,12 → 12 casos → <strong>0.333</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> El 1 no es suma posible; 12 solo con (6,6).</div></div>
+</div>
+
+<h2 id='exam6'>📝 EXAMEN JUNIO 2016 (Vespertino) 2</h2>
+<p>Turno Vespertino / 16-Jun-2016</p>
+
+<div class="question"><p><strong>1. (Normal) La camioneta de reparto tarda N(40, 25) min. En 75 entregas (3 meses): (a) ¿En cuántas el tiempo fue < 35 min? (b) ¿Tiempo mínimo del 15% de recorridos más largos?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q6_1ab"> A) (a) ≈ 12, (b) ≈ 45.2 min</label>
+<label class="option"><input type="radio" name="q6_1ab"> B) (a) ≈ 17, (b) ≈ 45.2 min</label>
+<label class="option"><input type="radio" name="q6_1ab"> C) (a) ≈ 12, (b) ≈ 35 min</label>
+<label class="option"><input type="radio" name="q6_1ab"> D) (a) ≈ 15, (b) ≈ 45.2 min</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q6_1ab')">🔍 Ver Solución</button>
+<div id='q6_1ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> z=(x−μ)/σ; P(X<35)=Φ(−1).</div><div class="formula-box">σ=√25=5; z=(35−40)/5=−1 → Φ(−1) = <strong>0.159</strong></div><div class="example-box">🟢 (a) 75 × 0.159 ≈ <strong>12 entregas</strong></div><div class="example-box">🟢 (b) Percentil 85: z≈1.036 → x = 40 + 1.036×5 = <strong>45.2 min</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Usar σ=5, no σ²=25, al tipificar.</div></div>
+</div>
+
+<div class="question"><p><strong>2. (V.A. Continua) f(x)=k si x≤4; f(x)=−x/8 + 3k si x>4, en [1,6]. (a) Halla k. (b) Halla la varianza.</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q6_2ab"> A) (a) k = 0.25, (b) Var ≈ 1.50</label>
+<label class="option"><input type="radio" name="q6_2ab"> B) (a) k = 0.25, (b) Var ≈ 3.45</label>
+<label class="option"><input type="radio" name="q6_2ab"> C) (a) k = 0.5, (b) Var ≈ 1.50</label>
+<label class="option"><input type="radio" name="q6_2ab"> D) (a) k = 0.35, (b) Var ≈ 1.50</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q6_2ab')">🔍 Ver Solución</button>
+<div id='q6_2ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> ∫₁⁶ f(x) dx = 1.</div><div class="formula-box">∫₁⁴ k dx + ∫₄⁶ (−x/8+3k) dx = 3k + (−2.25+18k+1−12k) = 9k −1.25 = 1 → <strong>k = 0.25</strong></div><div class="example-box">🟢 f(x)=0.25 (1≤x≤4) y −x/8 + 0.75 (4<x≤6).<br>Integrando: E(X) ≈ 3.04 ; E(X²) ≈ 10.75 → Var ≈ 1.50</div><div class="tip-box">⚠️ <strong>Trampa:</strong> Verificar que f(x) quede continua y positiva al elegir k.</div></div>
+</div>
+
+<div class="question"><p><strong>3. (Probabilidad Total y Bayes) Matrícula UPIICSA: Adm. 48% (concluye 73%), PYMES 7% (85%), Informática 18% (30%), Ing. Industrial 27% (50%). (a) ¿P(no concluya)? (b) Si concluyó, ¿P(sea Administración)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q6_3ab"> A) (a) 0.401, (b) 0.585</label>
+<label class="option"><input type="radio" name="q6_3ab"> B) (a) 0.599, (b) 0.585</label>
+<label class="option"><input type="radio" name="q6_3ab"> C) (a) 0.401, (b) 0.480</label>
+<label class="option"><input type="radio" name="q6_3ab"> D) (a) 0.401, (b) 0.730</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q6_3ab')">🔍 Ver Solución</button>
+<div id='q6_3ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Probabilidad total (no concluir) y Bayes (qué maestría).</div><div class="formula-box">P(No concluye) = 0.48×0.27 + 0.07×0.15 + 0.18×0.70 + 0.27×0.50 ≈ <strong>0.401 (40%)</strong></div><div class="formula-box">P(Concluye) = 1 − 0.401 = 0.599</div><div class="formula-box">(b) P(Adm|Concl.) = (0.48×0.73)/(0.599) ≈ <strong>0.59</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> "No concluye" usa (1−concluye%) y el denominador en (b) es P(Concluye).</div></div>
+</div>
+
+<div class="question"><p><strong>4. (Exponencial) El tiempo en la fila de cajas es Exp(μ=6 min). (a) ¿P(tarde entre 4 y 7 min)? (b) De 12 clientes, ¿P(entre 2 y 5 sean atendidos en el 1er minuto)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q6_4ab"> A) (a) 0.202, (b) 0.565</label>
+<label class="option"><input type="radio" name="q6_4ab"> B) (a) 0.202, (b) 0.665</label>
+<label class="option"><input type="radio" name="q6_4ab"> C) (a) 0.154, (b) 0.565</label>
+<label class="option"><input type="radio" name="q6_4ab"> D) (a) 0.320, (b) 0.565</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q6_4ab')">🔍 Ver Solución</button>
+<div id='q6_4ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Exponencial: P(a<X<b)=e^(−λa)−e^(−λb), λ=1/6.</div><div class="formula-box">(a) P(4<X<7) = e^(−4/6) − e^(−7/6) = 0.513 − 0.311 = <strong>0.202</strong></div><div class="example-box">🟢 (b) P(<1 min) = 1−e^(−1/6) = 0.154<br>Y~Bin(12, 0.154): P(2≤Y≤5) = <strong>0.565</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Ajustar λ al orden correcto: e^(−λa)−e^(−λb) con a<b.</div></div>
+</div>
+
+<div class="question"><p><strong>5. (Binomial/Poisson) 1 de cada 10 equipos reparados vuelve a fallar. En 220 equipos: (a) ¿P(≤15 vuelvan a fallar)? (b) De 8 equipos, ¿P(2 deban reemplazarse)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q6_5ab"> A) (a) 0.077, (b) 0.149</label>
+<label class="option"><input type="radio" name="q6_5ab"> B) (a) 0.077, (b) 0.383</label>
+<label class="option"><input type="radio" name="q6_5ab"> C) (a) 0.127, (b) 0.149</label>
+<label class="option"><input type="radio" name="q6_5ab"> D) (a) 0.500, (b) 0.149</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q6_5ab')">🔍 Ver Solución</button>
+<div id='q6_5ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> n grande, p pequeño → Poisson λ=n·p=22 para (a).</div><div class="formula-box">(a) X~Bin(220, 0.1) ≈ Poisson(22): P(X≤15) = <strong>0.077</strong></div><div class="example-box">🟢 (b) Y~Bin(8, 0.1): P(Y=2) = C(8,2)×0.1²×0.9⁶ = <strong>0.149</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Para (b) usar binomial directa (muestra pequeña), no Poisson.</div></div>
+</div>
+
+<h2 id='exam7'>📝 EXAMEN ENERO 2003</h2>
+<p>Enero 2003</p>
+
+<div class="question"><p><strong>1. (Probabilidad Total y Bayes) Aeropuerto A controla 50% del tráfico, B el 30% y C el 20%. Tasas de detección de armas: 0.9, 0.8 y 0.5. (a) ¿P(se detecte un arma)? (b) Si se detectó un arma, ¿P(que haya sido en A)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q7_1ab"> A) (a) 0.790, (b) 0.570</label>
+<label class="option"><input type="radio" name="q7_1ab"> B) (a) 0.790, (b) 0.500</label>
+<label class="option"><input type="radio" name="q7_1ab"> C) (a) 0.750, (b) 0.570</label>
+<label class="option"><input type="radio" name="q7_1ab"> D) (a) 0.790, (b) 0.900</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q7_1ab')">🔍 Ver Solución</button>
+<div id='q7_1ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Probabilidad total y Bayes con 3 aeropuertos.</div><div class="formula-box">(a) P(D) = 0.5×0.9 + 0.3×0.8 + 0.2×0.5 = 0.45 + 0.24 + 0.10 = <strong>0.790</strong></div><div class="formula-box">(b) P(A|D) = (0.5×0.9)/(0.79) = <strong>0.570 (57%)</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> La tasa de detección NO es la probabilidad de que venga de A.</div></div>
+</div>
+
+<div class="question"><p><strong>2. (Geométrica - monedas) Tres personas lanzan una moneda; el disparejo paga. Si las 3 son iguales, se repite. (a) ¿P(se necesiten menos de 4 intentos)? (b) ¿En cuántos intentos se espera al perdedor?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q7_2ab"> A) (a) 0.984, (b) 1.33 intentos</label>
+<label class="option"><input type="radio" name="q7_2ab"> B) (a) 0.984, (b) 1.63</label>
+<label class="option"><input type="radio" name="q7_2ab"> C) (a) 0.016, (b) 1.33</label>
+<label class="option"><input type="radio" name="q7_2ab"> D) (a) 0.750, (b) 1.33</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q7_2ab')">🔍 Ver Solución</button>
+<div id='q7_2ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> P(disparejo)=6/8=0.75; el conteo de intentos es geométrico con p=0.75.</div><div class="formula-box">P(3 iguales) = 2/8 = 0.25 → P(determinar) = 1−0.25 = <strong>0.75</strong></div><div class="example-box">🟢 (a) P(X<4) = 0.75 + 0.25×0.75 + 0.25²×0.75 = <strong>0.984</strong></div><div class="formula-box">(b) E(X) = 1/0.75 = <strong>1.33</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Geométrica cuenta SOLO los intentos; "menos de 4" = 1, 2 o 3.</div></div>
+</div>
+
+<div class="question"><p><strong>3. (Normal) Los pernos tienen diámetros N(10, 0.01²) mm. Son buenos si 9.97 ≤ d ≤ 10.03. (a) ¿% de pernos defectuosos? (b) Si solo el 3% de los más pequeños se rechaza, ¿cuál es el diámetro de selección?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q7_3ab"> A) (a) 0.27%, (b) 9.981 mm</label>
+<label class="option"><input type="radio" name="q7_3ab"> B) (a) 0.27%, (b) 10.019 mm</label>
+<label class="option"><input type="radio" name="q7_3ab"> C) (a) 0.10%, (b) 9.981 mm</label>
+<label class="option"><input type="radio" name="q7_3ab"> D) (a) 0.27%, (b) 9.970 mm</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q7_3ab')">🔍 Ver Solución</button>
+<div id='q7_3ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> z=(x−μ)/σ; los límites 10±0.03 equivalen a z=±3.</div><div class="formula-box">z = ±0.03/0.01 = ±3 → P(dentro) = Φ(3)−Φ(−3) = <strong>0.9973</strong></div><div class="example-box">🟢 (a) P(defectuoso) = 1 − 0.9973 = <strong>0.27% (0.27%)</strong></div><div class="example-box">🟢 (b) Percentil 3 → z=−1.881 → x = 10 − 1.881×0.01 = <strong>9.981 mm</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Defectuoso = 2×0.0013 (ambas colas), no solo una.</div></div>
+</div>
+
+<div class="question"><p><strong>4. (Exponencial) La vida media de un televisor es 7 años (distribución exponencial). (a) ¿P(fallezca después del 7º año)? (b) De 10 televisores, ¿P(exactamente 1 dure más de 12 años)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q7_4ab"> A) (a) 0.368, (b) 0.302</label>
+<label class="option"><input type="radio" name="q7_4ab"> B) (a) 0.368, (b) 0.698</label>
+<label class="option"><input type="radio" name="q7_4ab"> C) (a) 0.632, (b) 0.302</label>
+<label class="option"><input type="radio" name="q7_4ab"> D) (a) 0.368, (b) 0.180</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q7_4ab')">🔍 Ver Solución</button>
+<div id='q7_4ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Exponencial: P(X>t)=e^(−t/μ) con μ=7.</div><div class="formula-box">(a) P(X>7) = e^(−7/7) = e^(−1) = <strong>0.368</strong></div><div class="example-box">🟢 P(X>12) = e^(−12/7) = 0.180<br>(b) Y~Bin(10, 0.180): P(Y=1) = 10×0.180×(0.8199)⁹ = <strong>0.302</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> En (b) es binomial: "exactamente 1", no "≥1".</div></div>
+</div>
+
+<div class="question"><p><strong>5. (Binomial - examen al azar) Examen de 50 preguntas, cada una con 3 opciones (1 correcta). Contesta al azar. (a) ¿P(acierte más de 25)? (b) ¿P(acierte menos de 20)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q7_5ab"> A) (a) ≈ 0.004, (b) ≈ 0.802</label>
+<label class="option"><input type="radio" name="q7_5ab"> B) (a) ≈ 0.004, (b) ≈ 0.198</label>
+<label class="option"><input type="radio" name="q7_5ab"> C) (a) ≈ 0.054, (b) ≈ 0.802</label>
+<label class="option"><input type="radio" name="q7_5ab"> D) (a) ≈ 0.050, (b) ≈ 0.802</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q7_5ab')">🔍 Ver Solución</button>
+<div id='q7_5ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> X~Bin(50, 1/3); aproximación normal con corrección ±0.5.</div><div class="formula-box">μ = np = 50/3 = 16.7 ; σ = √(50×1/3×2/3) = 3.3</div><div class="example-box">🟢 (a) P(X>25) → z = (25.5 − 16.67)/3.33 = 2.65 → <strong>0.004</strong></div><div class="example-box">🟢 (b) P(X<20) → z = (19.5 − 16.67)/3.33 = 0.85 → <strong>0.802</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Aplicar ±0.5 de corrección de continuidad en ambos incisos.</div></div>
+</div>
+
+<h2 id='exam8'>📝 SEGUNDO EXAMEN (2017)</h2>
+<p>Turno Vespertino / 19-Oct-2017</p>
+
+<div class="question"><p><strong>1. (Binomial - reprobación) El 80% de los alumnos reprueba Cálculo Diferencial. De 20 alumnos: (a) ¿P(reprueben exactamente 8)? (b) ¿P(más de 5 no reprueben)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q8_1ab"> A) (a) 0.00009, (b) 0.196</label>
+<label class="option"><input type="radio" name="q8_1ab"> B) (a) 0.00009, (b) 0.804</label>
+<label class="option"><input type="radio" name="q8_1ab"> C) (a) 0.19579, (b) 0.000</label>
+<label class="option"><input type="radio" name="q8_1ab"> D) (a) 0.500, (b) 0.00009</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q8_1ab')">🔍 Ver Solución</button>
+<div id='q8_1ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Binomial P(X=k)=C(n,k)·pᵏ·qⁿ⁻ᵏ.</div><div class="formula-box">(a) P(X=8) = C(20,8)×0.8⁸×0.2¹² = <strong>0.00009</strong></div><div class="example-box">🟢 (b) "No reprueban" → Y~Bin(20, 0.2): P(Y>5) = 1−P(Y≤5) = <strong>0.196</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> En (b) el evento es "no reprobar" → usa p=0.2 directamente.</div></div>
+</div>
+
+<div class="question"><p><strong>2. (Poisson) Se desocupan 10 lugares cada 30 min. En los próximos 15 min: (a) ¿P(por lo menos 2 lugares)? (b) ¿P(exactamente 5 lugares)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q8_2ab"> A) (a) 0.960, (b) 0.175</label>
+<label class="option"><input type="radio" name="q8_2ab"> B) (a) 0.960, (b) 0.275</label>
+<label class="option"><input type="radio" name="q8_2ab"> C) (a) 0.040, (b) 0.175</label>
+<label class="option"><input type="radio" name="q8_2ab"> D) (a) 0.960, (b) 0.067</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q8_2ab')">🔍 Ver Solución</button>
+<div id='q8_2ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Ajustar λ al intervalo: 10/30 min = 5/15 min.</div><div class="formula-box">λ = 5 por 15 min</div><div class="example-box">🟢 (a) P(X≥2) = 1 − P(0) − P(1) = 1 − 6e⁻⁵ = <strong>0.960</strong></div><div class="example-box">🟢 (b) P(X=5) = e⁻⁵·5⁵/5! = <strong>0.175</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> λ cambia con el intervalo de tiempo (media proporcional).</div></div>
+</div>
+
+<div class="question"><p><strong>3. (Hipergeométrica - urnas) Hay 4 esferas rojas, 3 verdes y 3 blancas; se extraen 3 sin reemplazo. (a) ¿P(exactamente 2 verdes)? (b) ¿P(por lo menos una blanca)?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q8_3ab"> A) (a) 0.175, (b) 0.708</label>
+<label class="option"><input type="radio" name="q8_3ab"> B) (a) 0.175, (b) 0.292</label>
+<label class="option"><input type="radio" name="q8_3ab"> C) (a) 0.525, (b) 0.708</label>
+<label class="option"><input type="radio" name="q8_3ab"> D) (a) 0.175, (b) 0.500</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q8_3ab')">🔍 Ver Solución</button>
+<div id='q8_3ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Hipergeométrica sin reemplazo: P(k)=C(K,k)·C(N−K,n−k)/C(N,n).</div><div class="formula-box">N=10 (4R+3V+3B), n=3.</div><div class="example-box">🟢 (a) P(2 verdes) = C(3,2)·C(7,1)/C(10,3) = 3×7/120 = <strong>0.175</strong></div><div class="example-box">🟢 (b) P(≥1 blanca) = 1 − P(0 blancas) = 1 − C(7,3)/C(10,3) = <strong>0.708</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> "Por lo menos una" se resuelve con complemento.</div></div>
+</div>
+
+<div class="question"><p><strong>4. (Geométrica - semáforo fiscal) Solo el 6% de las personas recibe inspección minuciosa. (a) ¿P(la 9ª persona de la fila sea la primera en accionar el semáforo)? (b) ¿Cuántas personas se esperan hasta la primera revisión?</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q8_4ab"> A) (a) 0.037, (b) 16.7 personas</label>
+<label class="option"><input type="radio" name="q8_4ab"> B) (a) 0.060, (b) 16.7</label>
+<label class="option"><input type="radio" name="q8_4ab"> C) (a) 0.037, (b) 15.7</label>
+<label class="option"><input type="radio" name="q8_4ab"> D) (a) 0.034, (b) 16.7</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q8_4ab')">🔍 Ver Solución</button>
+<div id='q8_4ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Geométrica: P(X=k)=(1−p)ᵏ⁻¹·p; E(X)=1/p.</div><div class="formula-box">p = 0.06 (inspección), q = 0.94</div><div class="example-box">🟢 (a) P(X=9) = 0.94⁸ × 0.06 = <strong>0.037</strong></div><div class="formula-box">(b) E(X) = 1/0.06 = <strong>16.7 personas</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> La 9ª es la PRIMERA → 8 fallos antes: (1−p)⁸·p, no (1−p)⁹·p.</div></div>
+</div>
+
+<div class="question"><p><strong>5. (V.A.D.) Distribución: X={1, x₂, 5, 7} con p={1/4, 1/3, P₃, 1/4} y E(X)=23/6. (a) Halla x₂ y P₃. (b) Halla la varianza.</strong></p>
+<div class="options">
+<label class="option"><input type="radio" name="q8_5ab"> A) (a) x₂=3, P₃=1/6, (b) Var ≈ 4.97</label>
+<label class="option"><input type="radio" name="q8_5ab"> B) (a) x₂=3, P₃=1/6, (b) Var ≈ 0.97</label>
+<label class="option"><input type="radio" name="q8_5ab"> C) (a) x₂=3, P₃=1/3, (b) Var ≈ 4.97</label>
+<label class="option"><input type="radio" name="q8_5ab"> D) (a) x₂=4, P₃=1/6, (b) Var ≈ 4.97</label>
+</div>
+<button class='btn-toggle' onclick="toggleSolution('q8_5ab')">🔍 Ver Solución</button>
+<div id='q8_5ab' class='solution'><div class="example-box">✅ <strong>Respuesta correcta: A)</strong></div><div class="concept-box">🔵 <strong>Concepto:</strong> Σp=1 y Σx·p = E(X) para hallar incógnitas.</div><div class="formula-box">1/4 + 1/3 + P₃ + 1/4 = 1 → <strong>P₃ = 1/6</strong><br>E(X)=1/4 + x₂/3 + 5/6 + 7/4 = 23/6 → <strong>x₂ = 3</strong></div><div class="example-box">🟢 E(X²) = 1/4 + 3²/3 + 25/6 + 49/4 = 19.667<br>Var = 19.667 − (23/6)² = <strong>4.97</strong></div><div class="tip-box">⚠️ <strong>Trampa:</strong> Varianza con probabilidades que suman 1 y usando E(X²).</div></div>
+</div>
+
+<h2>📌 Fórmulas Maestras y Cheat Sheets</h2>
+<h3>🔵 Conceptos Fundamentales</h3>
+<div class="concept-box">
+<p><strong>Prob. Condicional:</strong> P(A|B) = P(A∩B) / P(B)</p>
+<p><strong>Bayes:</strong> P(A|B) = P(A)·P(B|A) / Σ P(Aᵢ)·P(B|Aᵢ)</p>
+<p><strong>V.A.:</strong> E(X) = Σ x·p(x); Var(X) = E(X²) − [E(X)]²</p>
+</div>
+<h3>🟠 Fórmulas Esenciales</h3>
+<div class="formula-box">
+📊 Binomial: C(n,k)·pᵏ·qⁿ⁻ᵏ<br>
+📈 Poisson: e⁻λ·λᵏ/k!<br>
+🎯 Normal: z = (x−μ)/σ<br>
+⏱️ Exponencial: P(X>t) = e⁻ᵗ/μ, λ=1/μ<br>
+📐 Hipergeométrica: C(K,k)·C(N−K,n−k)/C(N,n)<br>
+🎲 Geométrica: P(X=k)=(1−p)ᵏ⁻¹·p; E(X)=1/p
+</div>
+<h3>⚠️ Trampas Comunes en Exámenes</h3>
+<div class="tip-box">
+<p>1. <strong>Bayes:</strong> el denominador SIEMPRE es P(E) total.</p>
+<p>2. <strong>Normal−Binomial:</strong> aplicar corrección ±0.5.</p>
+<p>3. <strong>Exponencial:</strong> λ = 1/μ, no confundir con μ.</p>
+<p>4. <strong>Poisson:</strong> ajustar λ al intervalo.</p>
+<p>5. <strong>"Al menos"/"A lo más":</strong> usar complemento: P(X≥k)=1−P(X≤k−1).</p>
+<p>6. <strong>Sin reemplazo:</strong> el denominador disminuye en 1.</p>
+<p>7. <strong>Normal:</strong> tipificar con σ, nunca con σ².</p>
+</div>
+<h3>🧠 Repaso Activo (Active Recall)</h3>
+<div class="example-box">
+<p>1. Sin mirar el documento: escribir de memoria las 4 fórmulas del examen (Bayes, Binomial, Poisson, Normal).</p>
+<p>2. Para cada inciso, preguntarse: ¿qué distribución reconozco por las palabras clave del enunciado?</p>
+<p>3. Verificar siempre que las probabilidades sumen 1 antes de entregar.</p>
+</div>
+
+<div class='footer'><p>🎓 Generado por <strong>ParetoTutor Visual</strong> · Método con códigos de color para memoria visual</p></div>
+</div>
+<script>
+function toggleSolution(id){
+var e=document.getElementById(id);
+if(e.style.display==='none'||e.style.display===''){e.style.display='block';}else{e.style.display='none';}
+}
+</script>
+</body>
+</html>
