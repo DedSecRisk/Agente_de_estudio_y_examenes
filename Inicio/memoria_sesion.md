@@ -110,3 +110,10 @@
 - [x] Commit inicial + `push -u origin main` exitoso.
 - [x] **NO versionado (por copyright/privacidad):** libro Probabilidad (30 MB), PDF capacitación Salesforce, PDFs/imágenes de exámenes, guía con datos personales del CV, extracts de texto.
 
+# Reorganización del repo (05-Oct-2026)
+
+- [x] Nueva estructura: `Inicio/` (punto de entrada) · `src/` (código) · `docs/` (especificación + roadmap) · `Guias terminadas/` (entregables) · `Matería/` (fuente local, no versionada).
+- [x] `Inicio/LEEME.md` (mapa + protocolo de inicio, orden de lectura 0→6) y `Inicio/estado_actual.md` (resumen vivo: dónde estamos, último entregable, qué sigue).
+- [x] Rutas actualizadas a `src/` en `Inicio/agent.md`, `Inicio/flujo_trabajo.md` y `README.md`; comandos verificados (`python src/gen_guia_examen_v2.py` + `python src/verify_v2.py` → APROBADO ✔).
+- [x] Nota: `verify_v2.py` requiere consola UTF-8 (`$env:PYTHONUTF8='1'` en PowerShell) por los emojis ✅/✔.
+
