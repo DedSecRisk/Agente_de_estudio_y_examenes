@@ -12,7 +12,7 @@
 
 ## FASE 3: Producción Visual y Guardado (Comando `/generar_guia_visual [Nombre de la Materia]`)
 1. Selecciona los temas de Prioridad Alta.
-2. Utiliza Python para generar un **HTML autocontenido** con estilos CSS (colores de fondo, bordes, tipografía). El CSS base compartido está en `estilo_base.py`; el motor de exámenes v2 en `examen_v2.js` y `gen_guia_examen_v2.py`.
+2. Utiliza Python para generar un **HTML autocontenido** con estilos CSS (colores de fondo, bordes, tipografía). El CSS base compartido está en `src/estilo_base.py`; el motor de exámenes v2 en `src/examen_v2.js` y `src/gen_guia_examen_v2.py`.
 3. **Estructura Visual:** Aplica estrictamente la paleta de colores (Azul, Rojo, Verde, Naranja) con la regla de 3 capas de `reglas_estilo_visual.md`.
 4. **Guía + Examen combinados (formato v2):** El entregable es UN SOLO archivo HTML con:
    - Alternador superior **📖 Guía ⇄ 📝 Examen** (botones que muestran/ocultan cada vista).
@@ -21,6 +21,6 @@
 5. **ACCIÓN CRÍTICA DE GUARDADO:** Guarda el archivo EXACTAMENTE en: `C:\Users\theda\OneDrive\Documentos\Agentes\Estudio de examen\Guias terminadas\`
 
 ## FASE 4: Validación OBLIGATORIA antes de confirmar (NUEVA — no omitir)
-1. Ejecuta `python verify_v2.py <archivo_generado>` (o el verificador de la materia).
+1. Ejecuta `python src/verify_v2.py <archivo_generado>` (o el verificador de la materia).
 2. Corrige TODO fallo hasta `RESULTADO: APROBADO`.
 3. Solo entonces confirma al usuario que el documento está listo en su carpeta.

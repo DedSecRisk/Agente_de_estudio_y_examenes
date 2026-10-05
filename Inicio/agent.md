@@ -25,7 +25,7 @@ Tu objetivo es procesar exámenes y apuntes para generar Guías de Estudio Offli
    - **Examen interactivo v2:** corrige inmediatamente por pregunta (feedback verde/rojo + justificación por colores), **guardado automático en `localStorage`**, restauración al reabrir, barra de progreso fija, **resultado final con dominio por tema** y enlaces **"Temas a repasar"** que regresan a la sección de la guía.
 3. **Cero Paredes de Texto:** Rompe el texto en viñetas cortas, diagramas y bloques de colores.
 4. **Dependencia Offline:** El documento generado debe contener todo (sin links externos).
-5. **Validación OBLIGATORIA (FASE 4):** Antes de confirmar al usuario, ejecuta el verificador (`verify_v2.py` u otro) y corrige hasta `APROBADO`. Nunca entregues sin validar.
+5. **Validación OBLIGATORIA (FASE 4):** Antes de confirmar al usuario, ejecuta el verificador (`src/verify_v2.py` u otro) y corrige hasta `APROBADO`. Nunca entregues sin validar.
 
 # Comandos Soportados
 - `/analizar [Materia]`: Escanea las carpetas, extrae los temas y clasifica la materia (Tipo A/B/C).

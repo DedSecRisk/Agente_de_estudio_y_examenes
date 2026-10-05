@@ -45,17 +45,17 @@ de repaso activo**, y cada guía con **simulacro final**.
 
 | Ruta | Qué es y por qué importa |
 |---|---|
-| `Inicio/` | **Cerebro del agente.** Reglas que rigen toda generación: `agent.md` (rol, formato v2, comandos), `flujo_trabajo.md` (fases 1-4), `plantilla_salida.md` (plantilla por tema), `reglas_estilo_visual.md` (paleta 3 capas), `memoria_sesion.md` (historial de decisiones y materias). |
-| `estilo_base.py` | **Base visual única v2.** CSS compartido + helpers Python (`HERO`, `B`, `TAB`, `LI`, `PRE`, `RECALL`). Evita que cada generador reinvente el diseño. |
-| `examen_v2.js` | **Motor de examen v2.** Corrección inmediata 🟢/🔴 + justificación, guardado en `localStorage` (`ex_<materia>_respuestas`), restauración al reabrir, barra de progreso fija, resultado global + dominio por tema, panel "Temas a repasar" con salto a la guía, botón reintentar con confirmación. |
-| `gen_guia_examen_v2.py` | **Generador combinado actual.** Une guía + examen en un solo HTML (contenido Entrevista Técnica: 12 temas + 38 preguntas). Es el modelo a replicar por materia. |
-| `verify_v2.py` | **Validador obligatorio FASE 4.** Revisa balance HTML, vistas guía/examen, alternador, IDs únicos, anclas, radios 4×, feedback por pregunta, motor JS, JSON válido y que cada pregunta apunte a un tema existente. |
-| `gen_visual.py`, `gen_visual_sql.py`, `gen_visual_entrevista.py` | Generadores legacy de guías (Probabilidad, SQL, Entrevista). Se migrarán a la base v2. |
-| `gen_examenes_interactivos.py`, `gen_examenes_salesforce.py` | Generadores legacy de exámenes (Probabilidad 34 preg., Salesforce 60 preg.). |
-| `verify_final.py`, `verify_salesforce.py` | Validadores legacy. |
+| `Inicio/` | **Cerebro del agente — punto de entrada.** Empieza por `LEEME.md`: `agent.md` (rol, formato v2, comandos), `flujo_trabajo.md` (fases 1-4), `plantilla_salida.md` (plantilla por tema), `reglas_estilo_visual.md` (paleta 3 capas), `estado_actual.md` (resumen vivo para retomar), `memoria_sesion.md` (historial detallado). |
+| `src/estilo_base.py` | **Base visual única v2.** CSS compartido + helpers Python (`HERO`, `B`, `TAB`, `LI`, `PRE`, `RECALL`). Evita que cada generador reinvente el diseño. |
+| `src/examen_v2.js` | **Motor de examen v2.** Corrección inmediata 🟢/🔴 + justificación, guardado en `localStorage` (`ex_<materia>_respuestas`), restauración al reabrir, barra de progreso fija, resultado global + dominio por tema, panel "Temas a repasar" con salto a la guía, botón reintentar con confirmación. |
+| `src/gen_guia_examen_v2.py` | **Generador combinado actual.** Une guía + examen en un solo HTML (contenido Entrevista Técnica: 12 temas + 38 preguntas). Es el modelo a replicar por materia. |
+| `src/verify_v2.py` | **Validador obligatorio FASE 4.** Revisa balance HTML, vistas guía/examen, alternador, IDs únicos, anclas, radios 4×, feedback por pregunta, motor JS, JSON válido y que cada pregunta apunte a un tema existente. |
+| `src/gen_visual.py`, `src/gen_visual_sql.py`, `src/gen_visual_entrevista.py` | Generadores legacy de guías (Probabilidad, SQL, Entrevista). Se migrarán a la base v2. |
+| `src/gen_examenes_interactivos.py`, `src/gen_examenes_salesforce.py` | Generadores legacy de exámenes (Probabilidad 34 preg., Salesforce 60 preg.). |
+| `src/verify_final.py`, `src/verify_salesforce.py` | Validadores legacy. |
 | `Guias terminadas/` | **Entregables listos.** Abre cualquier `.html` en el navegador, sin instalar nada. |
-| `Especificacion_Agente_Guias_Examenes.md` | Especificación del sistema guía + examen (navegación por temas, examen con estado, validaciones). |
-| `Plan_Plataforma_Estudio_TI.md` | Roadmap futuro (rutas, plataforma, cuentas, premium). **Fuera del alcance actual.** |
+| `docs/Especificacion_Agente_Guias_Examenes.md` | Especificación del sistema guía + examen (navegación por temas, examen con estado, validaciones). |
+| `docs/Plan_Plataforma_Estudio_TI.md` | Roadmap futuro (rutas, plataforma, cuentas, premium). **Fuera del alcance actual.** |
 
 > 🔒 **Privacidad y legal:** la carpeta `Matería/` (PDFs, libros, fotos de exámenes),
 > los `_extract_*.txt` y los `__pycache__/` **no se versionan** (ver `.gitignore`).
@@ -87,7 +87,7 @@ de repaso activo**, y cada guía con **simulacro final**.
 
 ```bash
 # Regenerar la guía + examen del piloto (sistema v2)
-python gen_guia_examen_v2.py
+python src/gen_guia_examen_v2.py
 ---
 
 ## 🔄 Cómo crear una guía de una materia nueva (flujo del agente)
@@ -98,8 +98,8 @@ El agente trabaja en 4 fases (`Inicio/flujo_trabajo.md`). Resumen para humanos:
 |---|---|---|
 | **1. Ingesta y análisis** | `/analizar [Materia]` | Colocas exámenes/fotos en `Matería/[Materia]/imagenes de examenes/` y libros en `.../libros/`. El agente extrae temas y devuelve tabla de frecuencias. |
 | **2. Consolidación** | `/estado` | Calcula el Top 20% Pareto y **clasifica la materia**: **Tipo A** (cuantitativa: Probabilidad), **Tipo B** (herramienta: SQL, Docker), **Tipo C** (conceptual/puesto: Entrevista, ISO). Cada tipo usa su variante de plantilla. |
-| **3. Producción** | `/generar_guia_visual [Materia]` | Genera con Python **UN SOLO HTML** (guía navegable por `<h2 id="tema-slug">` + examen v2 con JSON embebido) usando `estilo_base.py` + `examen_v2.js`, y lo guarda en `Guias terminadas/`. |
-| **4. Validación** | automática | Ejecuta `verify_v2.py` y corrige **todo** hasta `APROBADO ✔`. Nunca se entrega sin validar. |
+| **3. Producción** | `/generar_guia_visual [Materia]` | Genera con Python **UN SOLO HTML** (guía navegable por `<h2 id="tema-slug">` + examen v2 con JSON embebido) usando `src/estilo_base.py` + `src/examen_v2.js`, y lo guarda en `Guias terminadas/`. |
+| **4. Validación** | automática | Ejecuta `python src/verify_v2.py` y corrige **todo** hasta `APROBADO ✔`. Nunca se entrega sin validar. |
 
 ### ✍️ Cómo añadir contenido a mano (avanzado)
 
@@ -135,7 +135,7 @@ Las guías legacy se conservan hasta ser revalidadas con `verify_v2.py`.
 - [x] Base visual compartida + motor de examen v2 + validación obligatoria.
 - [x] Piloto Entrevista Técnica (12 temas, 38 preguntas).
 - [ ] Migrar SQL, Probabilidad y Salesforce al sistema v2 (Fase 5).
-- [ ] Curso piloto "Redes TCP/IP" como ruta navegable (ver `Plan_Plataforma_Estudio_TI.md`).
+- [ ] Curso piloto "Redes TCP/IP" como ruta navegable (ver `docs/Plan_Plataforma_Estudio_TI.md`).
 - 🔮 Futuro (fuera de alcance): plataforma con rutas, cuentas y premium — solo con contenido propio o licenciado (ver sección legal).
 
 ### ⚖️ Nota legal
@@ -144,7 +144,7 @@ Las guías actuales derivan en parte de materiales de terceros (libros, capacita
 exámenes reales) y se publican con fin **educativo/personal**. Antes de cualquier uso
 comercial o monetización: sustituir por **contenido original**, obtener licencias o
 asesoría de copyright. Ver `Inicio/memoria_sesion.md` (sección publicación) y
-`Plan_Plataforma_Estudio_TI.md`.
+`docs/Plan_Plataforma_Estudio_TI.md`.
 
 ---
 
@@ -152,7 +152,7 @@ asesoría de copyright. Ver `Inicio/memoria_sesion.md` (sección publicación) y
 
 1. Crea tu rama: `git checkout -b feat/mi-materia`.
 2. Añade tu generador o contenido siguiendo el formato v2 (`TEMAS` + `PREGUNTAS` + helpers `EB.*`).
-3. Valida: `python verify_v2.py` debe dar **APROBADO ✔**.
+3. Valida: `python src/verify_v2.py` debe dar **APROBADO ✔**.
 4. Haz commit y push; abre PR a `main` describiendo materia, nº de temas/preguntas y resultado del validador.
     ├── imagenes de examenes/   ← fotos / .md de exámenes reales
     └── libros/                 ← PDFs de referencia
@@ -160,6 +160,6 @@ asesoría de copyright. Ver `Inicio/memoria_sesion.md` (sección publicación) y
 # → Guias terminadas/Guia_Examen_Entrevista_Tecnica.html (12 temas, 38 preguntas)
 
 # Validar antes de entregar (OBLIGATORIO — FASE 4)
-python verify_v2.py
+python src/verify_v2.py
 # → RESULTADO: APROBADO ✔ (o lista de fallos a corregir)
 ```
